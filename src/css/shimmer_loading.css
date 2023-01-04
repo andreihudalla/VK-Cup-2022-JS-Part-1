@@ -1,6 +1,6 @@
 :root {
-    --color-start: #F6F6F6;
-    --color-middle: #dddddd;
+    --color-start: rgb(250,250,250);
+    --color-middle: rgb(245,245,245);
 }
 
 [data-theme="dark"] {

@@ -1,3 +1,29 @@
+:root {
+    --button-color: #19191a;
+    --darken-filter: brightness(1);
+    --send-color: #ffffff;
+    --send-hover: #d3d3d3;
+    --send-text: #19191a;
+    --send-border: rgb(197, 197, 197);
+    --button-color: #19191a;
+    --button-hover: rgba(255, 255, 255, 0.04);
+    --button-selected: rgba(255, 255, 255, 0.08);
+    --button-text: white;
+}
+
+[data-theme="light"] {
+    --button-color: #19191a;
+    --darken-filter: brightness(0.2);
+    --send-color: #ffffff;
+    --send-hover: #d3d3d3;
+    --send-text: #19191a;
+    --send-border: rgb(197, 197, 197);
+    --button-color: white;
+    --button-hover: rgb(244, 244, 244);
+    --button-selected: rgb(230,230,230);
+    --button-text: black;
+}
+
 #sidebar {
     width: 11em;
     display: flex;
@@ -30,38 +56,38 @@
 #folders > button > img {
     height: 0.8em;
     margin-right: 0.75em;
+    filter: var(--darken-filter);
 }
 
 #sidebar > button {
-    background: #FFFFFF;
-    color: #333333;
+    background: var(--send-color);
+    color: var(--send-text);
     height: 2.5em;
-    font-weight: 700;
+    font-weight: 750;
     border-radius: 0.5em;
     font-family: 'Arial';
     font-size: 0.8em;
     width: 100%;
     margin-bottom: 0.5em;
     transition: background-color 0.3s;
-    background: #ffffff;
+    border: var(--send-border) solid 2px;
 }
 
 #sidebar > button:hover{
-    background: #a8a8a8;   
+    background: var(--send-hover);
 }
 
 #folders > button {
-    background: #19191a;
-    color: #ffffff;
+    background: var(--button-color);
+    color: var(--button-text);
 }
 
 #folders > button:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--button-hover);
 }
 
 #folders > button.selected {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: var(--button-selected);
     height: 2.5em;
     font-weight: 700;
 }

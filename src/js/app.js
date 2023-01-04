@@ -12,8 +12,17 @@ function addClass(element,setClass){
     element.classList.add(setClass)
 }
 
-document.documentElement.setAttribute('data-theme', 'dark');
-localStorage.setItem('theme', 'dark');
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (theme == "light") {
+        const Logo = document.querySelector("#Logo_Full")
+        Logo.setAttribute("src","Media/Mail_Full_Light.png")
+
+    }
+}
+
+setTheme("light")
 
 function createElem(tag,parent,setClass){
     const element = document.createElement(tag)
@@ -93,8 +102,8 @@ function renderListItem(data){
     if (data.doc) {
         var Icon = createElem("img",categories,"doc")
         Icon.setAttribute("src","media/Attachment.png")
+        Icon.setAttribute("class","attachment")
     }
-    console.log(data)
     if (data.flag) {
         var Icon = createElem("img",categories)
         if (data.flag == "Регистрации") {
