@@ -1,0 +1,38 @@
+:root {
+    --color-start: #F6F6F6;
+    --color-middle: #dddddd;
+}
+
+[data-theme="dark"] {
+    --color-start: #232324;
+    --color-middle: #272729;
+}
+
+.shimmer {
+    animation-duration: 2.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: linear-gradient(to right, var(--color-start) 8%, var(--color-middle) 18%, var(--color-start) 33%);
+    background-size: 1200px 100%;
+}
+
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+    100% {
+        background-position: 1200px 0;
+    }
+}

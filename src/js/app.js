@@ -12,6 +12,9 @@ function addClass(element,setClass){
     element.classList.add(setClass)
 }
 
+document.documentElement.setAttribute('data-theme', 'dark');
+localStorage.setItem('theme', 'dark');
+
 function createElem(tag,parent,setClass){
     const element = document.createElement(tag)
     parent.appendChild(element)
@@ -31,7 +34,6 @@ function setBackButtonEnabled(value){
     const button = document.querySelector("#corner-content_2")
     const list = document.querySelector("#list")
     const viewer = document.querySelector("#viewer")
-    primary.setAttribute("style","opacity: 0")
     if (value){
         button.classList.remove("disabled")
         logo.classList.add("disabled")
@@ -150,13 +152,11 @@ function getDisplayDate(Value) {
 
 function renderEmail(email_date){
     setBackButtonEnabled(true)
+    viewer.classList.add("shimmer")
     let api_request = http.open("GET","/api/get_email_by_date/"+email_date)
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
-            setTimeout(() => {
-                primary.setAttribute("style","opacity: 1")
-            },500)
             const response = JSON.parse(http.response)[0]
             const title = document.querySelector(".title")
             const flag_text = document.querySelector(".flag")
@@ -175,6 +175,7 @@ function renderEmail(email_date){
             } else {
                 avatar.setAttribute("src","media/user.png")
             }
+            avatar.setAttribute("style","")
             name.innerHTML = response.author.name+" "+response.author.surname
             date.innerHTML = getDisplayDate(response.date)
             var recipientsList = []
@@ -240,21 +241,18 @@ function renderEmail(email_date){
                 flag_text.innerHTML = ""
                 flag_icon.setAttribute("src","")
             }
+            viewer.classList.remove("shimmer")
         }
     }
 }
 
 function renderFolder(folder_name){
     setBackButtonEnabled(false)
-    primary.setAttribute("style","opacity: 0")
     last_folder = folder_name
     let api_request = http.open("GET","/api/get_folder_emails/"+folder_name)
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
-            setTimeout(() => {
-                primary.setAttribute("style","opacity: 1")
-            },500)
             const response = JSON.parse(http.response)
             list.innerHTML = ""
             response.forEach(element => renderListItem(element))

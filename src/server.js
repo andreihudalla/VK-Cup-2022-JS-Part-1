@@ -46,15 +46,26 @@ function sendRes(url, contentType, response){
                 var ResponseArray = DB
                 var RequestType = url.split("/")[2]
                 var Argument = url.split("/")[3]
+                var Amount = url.split("/")[4]
+                var StartFrom = url.split("/")[5]
                 console.log("Recieved API request: " + url)
+                if (StartFrom == null || Amount == null) {StartFrom = 0; Amount = 100000}
                 switch (RequestType){
                     // Getting emails in certain folders with small data
                     case "get_folder_emails": {
                         ResponseArray = []
+                        var Done = false
                         DB.forEach(element => {
+                            if (Done) {return}
                             if (rusToLat(element.folder) == Argument) {
-                                ResponseArray.push(element)
+                                if (StartFrom <= 0) {
+                                    element.doc = null
+                                    ResponseArray.push(element)
+                                } else {
+                                    StartFrom -= 1
+                                }
                             }
+                            if (ResponseArray.length >= Amount) {Done = true}
                         });
                         response.writeHead(200, {'Content-Type' : "application/json"})
                         response.write(JSON.stringify(ResponseArray))
