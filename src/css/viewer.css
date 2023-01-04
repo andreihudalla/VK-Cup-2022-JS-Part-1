@@ -1,0 +1,146 @@
+#viewer{
+    background-color: #232324;
+    border-radius: 12px;
+    padding-left: 2em;
+    padding-bottom: 2em;
+}
+
+#viewer > .topbar {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 2em;
+    align-items: center;
+}
+
+#viewer > .topbar > .Category {
+    display: flex;
+    align-items: center;
+}
+
+#viewer > .topbar > .Category > img {
+    height: 1em;
+}
+
+#viewer > .topbar > .Category > p {
+    font-family: "Arial";
+    color: white;
+    margin-left: 0.75em;
+    font-weight: 100;
+    font-size: 0.9em;
+    line-height: 0.6em;
+}
+
+#viewer > .topbar > h2 {
+    font-family: "Arial";
+    color: white;
+    font-weight: 600;
+    font-size: 1.5em;
+}
+
+.extra {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2em;
+}
+
+.extra > .dot {
+    border-radius: 100%;
+    width: 0.3em;
+    height: 0.3em;
+    margin-left: 1em;
+    background-color: #3C82FD;
+    transform: translate(-700%);
+}
+
+.extra > .avatar {
+    display: block;
+    height: 2em;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 100%;
+    user-select: none;
+    transform: translate(-60%);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.01em;
+}
+
+.top-data {
+    height: 50%;
+    display: flex;
+}
+
+.top-data > h6 {
+    margin: 0;
+    font-size: 0.9em;
+    margin-right: 0.5em;
+    font-family: "Arial";
+    color: rgba(255, 255, 255, 0.803);
+    font-weight: 100;
+}
+
+.top-data > p {
+    margin: 0;
+    font-size: 0.8em;
+    margin-right: 0.5em;
+    font-family: "Arial";
+    color: rgba(255, 255, 255, 0.39);
+    font-weight: 200;
+}
+
+.bottom-data {
+    height: 50%;
+    display: flex;
+}
+
+.bottom-data > p {
+    margin: 0;
+    font-size: 0.8em;
+    margin-right: 0.5em;
+    font-family: "Arial";
+    color: rgba(255, 255, 255, 0.39);
+    font-weight: 200;
+    overflow: hidden;
+    width: 60vw;
+    overflow-wrap: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.media {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.media > img {
+    width: 17em;
+    height: 12em;
+    border-radius: 0.75em;
+    transition: all 0.5s;
+    user-select: none;
+}
+
+#viewer > .download {
+    font-family: "Arial";
+    color: white;
+    font-size: 0.8em;
+}
+
+#viewer > .download > a {
+    font-family: "Arial";
+    color: rgb(0, 145, 255);
+    margin-left: 1.5em;
+    text-decoration: none;
+}
+
+.content {
+    font-size: 1em;
+    font-family: "Arial";
+    color: white;
+    line-height: 1.5em;
+    width: 90%;
+}
