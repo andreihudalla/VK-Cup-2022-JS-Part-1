@@ -94,6 +94,7 @@ function renderListItem(data){
         var Icon = createElem("img",categories,"doc")
         Icon.setAttribute("src","media/Attachment.png")
     }
+    console.log(data)
     if (data.flag) {
         var Icon = createElem("img",categories)
         if (data.flag == "Регистрации") {
@@ -151,12 +152,15 @@ function getDisplayDate(Value) {
 }
 
 function renderEmail(email_date){
+    const Inner = viewer.innerHTML
+    viewer.innerHTML = ""
     setBackButtonEnabled(true)
     viewer.classList.add("shimmer")
     let api_request = http.open("GET","/api/get_email_by_date/"+email_date)
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
+            viewer.innerHTML = Inner
             const response = JSON.parse(http.response)[0]
             const title = document.querySelector(".title")
             const flag_text = document.querySelector(".flag")
@@ -210,6 +214,8 @@ function renderEmail(email_date){
                     }
                     download.innerHTML = files_prefix+"<a href='"+image+"'"+" download='file.png'"+">Скачать все файлы</a>"
                 }
+            } else {
+                download.innerHTML = ""
             }
             content.innerHTML = response.text
             if (response.read) {

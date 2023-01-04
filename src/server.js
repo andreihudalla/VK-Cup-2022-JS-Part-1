@@ -47,9 +47,9 @@ function sendRes(url, contentType, response){
                 var RequestType = url.split("/")[2]
                 var Argument = url.split("/")[3]
                 var Amount = url.split("/")[4]
-                var StartFrom = url.split("/")[5]
+                var RemoveFirst = url.split("/")[5]
                 console.log("Recieved API request: " + url)
-                if (StartFrom == null || Amount == null) {StartFrom = 0; Amount = 100000}
+                if (RemoveFirst == null || Amount == null) {RemoveFirst = 0; Amount = 100000}
                 switch (RequestType){
                     // Getting emails in certain folders with small data
                     case "get_folder_emails": {
@@ -58,11 +58,10 @@ function sendRes(url, contentType, response){
                         DB.forEach(element => {
                             if (Done) {return}
                             if (rusToLat(element.folder) == Argument) {
-                                if (StartFrom <= 0) {
-                                    element.doc = null
+                                if (RemoveFirst <= 0) {
                                     ResponseArray.push(element)
                                 } else {
-                                    StartFrom -= 1
+                                    RemoveFirst -= 1
                                 }
                             }
                             if (ResponseArray.length >= Amount) {Done = true}

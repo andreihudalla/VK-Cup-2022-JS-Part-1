@@ -1,8 +1,18 @@
+:root {
+    --primary-text-color: #E7E8EA;
+}
+
+[data-theme="dark"] {
+    --color-start: #232324;
+    --color-middle: #272729;
+}
+
 #viewer{
     background-color: #232324;
     border-radius: 12px;
     padding-left: 2em;
     padding-bottom: 2em;
+    min-height: 10em;
 }
 
 #viewer > .topbar {
@@ -23,7 +33,7 @@
 
 #viewer > .topbar > .Category > p {
     font-family: "Arial";
-    color: white;
+    color: var(--primary-text-color);
     margin-left: 0.75em;
     font-weight: 100;
     font-size: 0.9em;
@@ -32,7 +42,7 @@
 
 #viewer > .topbar > h2 {
     font-family: "Arial";
-    color: white;
+    color: var(--primary-text-color);
     font-weight: 600;
     font-size: 1.5em;
 }
@@ -78,7 +88,7 @@
     font-size: 0.9em;
     margin-right: 0.5em;
     font-family: "Arial";
-    color: rgba(255, 255, 255, 0.803);
+    color: var(--primary-text-color);
     font-weight: 100;
 }
 
@@ -126,7 +136,7 @@
 
 #viewer > .download {
     font-family: "Arial";
-    color: white;
+    color: var(--primary-text-color);
     font-size: 0.8em;
 }
 
