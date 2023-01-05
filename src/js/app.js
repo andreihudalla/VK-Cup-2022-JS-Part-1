@@ -4,6 +4,7 @@ const primary = document.querySelector(".primary")
 const list = document.querySelector("#list")
 const viewer = document.querySelector("#viewer")
 const http = new XMLHttpRequest()
+const nomail = document.querySelector(".no-mail")
 
 const sidebar_buttons = document.querySelectorAll("#folders > button")
 var last_folder = null
@@ -268,18 +269,21 @@ function renderFolder (folder_name, first_scroll){
         ItemsRendered = 0
         setBackButtonEnabled(false)
         last_folder = folder_name
-        window.addEventListener("scroll", handleInfiniteScroll);
         RequestsMade = []
         list.innerHTML = ""
     }
     let api_request = "/api/get_folder_emails/"+folder_name+"/"+Step+"/"+ItemsRendered
     let request = http.open("GET",api_request)
-    if (RequestsMade[api_request]) {return}
     RequestsMade[api_request] = true
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             const response = JSON.parse(http.response)
+            if (response.length > 0) {
+                nomail.setAttribute("style","display: none;")
+            } else {
+                nomail.setAttribute("style","")
+            }
             if (response.length < Step) {
                 console.log("Out of mail!")
                 window.removeEventListener("scroll", handleInfiniteScroll);
@@ -294,7 +298,10 @@ function renderFolder (folder_name, first_scroll){
 const handleInfiniteScroll = () => {
     const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
     if (endOfPage) {
-        renderFolder(last_folder)
+        const api_request = "/api/get_folder_emails/"+last_folder+"/"+Step+"/"+ItemsRendered
+        if (RequestsMade[api_request]) {return} else {
+            renderFolder(last_folder)
+        }
     }
 }
 
@@ -314,6 +321,7 @@ function setupCheckboxes(){
 sidebar_buttons.forEach((button) => {
     button.addEventListener('click', () => {
         renderFolder(rusToLat(button.getAttribute("folder")),true)
+        window.addEventListener("scroll", handleInfiniteScroll);
         sidebar_buttons.forEach((loop_button) => {
             if (button === loop_button) {
                 loop_button.setAttribute("class","selected")

@@ -10,6 +10,7 @@
     --checkbox-border: rgba(255, 255, 255, 0.16);
     --darken-filter: brightness(1);
     --line-color: rgb(15, 15, 15);
+    --nomail_image: url(../media/Empty_Dark.png);
 }
 
 [data-theme="light"] {
@@ -24,11 +25,30 @@
     --checkbox-border: rgba(0, 16, 61, 0.12);
     --darken-filter: brightness(0.2);
     --line-color: rgb(211, 211, 211);
+    --nomail_image: url(../media/Empty_Light.png);
 }
 
 body,html {
     margin: 0px;
     background-color: var(--background-color);
+}
+
+.no-mail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.no-mail > img {
+    width: 15em;
+    content: var(--nomail_image)
+}
+
+.no-mail > h2 {
+    font-family: "Arial";
+    color: var(--primary-text-color);
 }
 
 .top-level-header {
@@ -119,7 +139,7 @@ main {
     height: fit-content;
 }
 
-#list > div {
+#list > div:not(.no-mail) {
     background-color: var(--primary-color);
     border-radius: 12px;
     height: 3em;
