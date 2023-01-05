@@ -13,10 +13,10 @@ function rusToLat(str) {
             'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 
             'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
             'ъ': 'ie', 'ь': '', 'й': 'i'
-          };
-          let newString = [];
-          
-          return [...str].map(l => {
+        };
+        let newString = [];
+        
+        return [...str].map(l => {
             let latL = ru[l.toLocaleLowerCase()];
             
             if (l !== l.toLocaleLowerCase()) {
@@ -26,7 +26,7 @@ function rusToLat(str) {
             }
             
             return latL;
-          }).join('');
+        }).join('');
     } else {
         return "_"
     }
@@ -49,7 +49,7 @@ function sendRes(url, contentType, response){
                 var Amount = url.split("/")[4]
                 var RemoveFirst = url.split("/")[5]
                 console.log("Recieved API request: " + url)
-                if (RemoveFirst == null || Amount == null) {RemoveFirst = 0; Amount = 100000}
+                if (RemoveFirst == null || Amount == null) {RemoveFirst = 0; Amount = 20}
                 switch (RequestType){
                     // Getting emails in certain folders with small data
                     case "get_folder_emails": {

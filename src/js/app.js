@@ -7,22 +7,22 @@ const http = new XMLHttpRequest()
 
 const sidebar_buttons = document.querySelectorAll("#folders > button")
 var last_folder = null
+var ItemsRendered = 0
+const Step = 20
 
 function addClass(element,setClass){
     element.classList.add(setClass)
 }
 
 function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
     if (theme == "light") {
         const Logo = document.querySelector("#Logo_Full")
         Logo.setAttribute("src","Media/Mail_Full_Light.png")
 
     }
 }
-
-setTheme("light")
 
 function createElem(tag,parent,setClass){
     const element = document.createElement(tag)
@@ -261,18 +261,40 @@ function renderEmail(email_date){
     }
 }
 
-function renderFolder(folder_name){
-    setBackButtonEnabled(false)
-    last_folder = folder_name
-    let api_request = http.open("GET","/api/get_folder_emails/"+folder_name)
+var RequestsMade = []
+
+function renderFolder (folder_name, first_scroll){
+    if (first_scroll == true) {
+        ItemsRendered = 0
+        setBackButtonEnabled(false)
+        last_folder = folder_name
+        window.addEventListener("scroll", handleInfiniteScroll);
+        RequestsMade = []
+        list.innerHTML = ""
+    }
+    let api_request = "/api/get_folder_emails/"+folder_name+"/"+Step+"/"+ItemsRendered
+    let request = http.open("GET",api_request)
+    if (RequestsMade[api_request]) {return}
+    RequestsMade[api_request] = true
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             const response = JSON.parse(http.response)
-            list.innerHTML = ""
+            if (response.length < Step) {
+                console.log("Out of mail!")
+                window.removeEventListener("scroll", handleInfiniteScroll);
+            }
+            ItemsRendered += response.length
             response.forEach(element => renderListItem(element))
             setupCheckboxes()
         }
+    }
+}
+
+const handleInfiniteScroll = () => {
+    const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
+    if (endOfPage) {
+        renderFolder(last_folder)
     }
 }
 
@@ -291,7 +313,7 @@ function setupCheckboxes(){
 
 sidebar_buttons.forEach((button) => {
     button.addEventListener('click', () => {
-        renderFolder(rusToLat(button.getAttribute("folder")))
+        renderFolder(rusToLat(button.getAttribute("folder")),true)
         sidebar_buttons.forEach((loop_button) => {
             if (button === loop_button) {
                 loop_button.setAttribute("class","selected")
