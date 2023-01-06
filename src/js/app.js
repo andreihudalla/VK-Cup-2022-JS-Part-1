@@ -5,6 +5,7 @@ const list = document.querySelector("#list")
 const viewer = document.querySelector("#viewer")
 const http = new XMLHttpRequest()
 const nomail = document.querySelector(".no-mail")
+const filters = document.querySelector(".filters")
 
 const sidebar_buttons = document.querySelectorAll("#folders > button")
 var last_folder = null
@@ -36,7 +37,7 @@ function createElem(tag,parent,setClass){
 
 const backButton = document.querySelector("#corner-content_2")
 backButton.addEventListener("click",() => {
-    renderFolder(last_folder)
+    renderFolder(last_folder,true)
 })
 
 function setBackButtonEnabled(value){
@@ -49,11 +50,14 @@ function setBackButtonEnabled(value){
         logo.classList.add("disabled")
         list.setAttribute("style","display: none")
         viewer.setAttribute("style","display: block")
+        filters.setAttribute("style","display: none;")
+
     } else {
         button.classList.add("disabled")
         logo.classList.remove("disabled")
         list.setAttribute("style","display: block")
         viewer.setAttribute("style","display: none")
+        filters.setAttribute("style","")
     }
 }
 

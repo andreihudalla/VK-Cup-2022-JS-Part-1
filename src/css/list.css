@@ -56,6 +56,8 @@ body,html {
     height: 4em;
     background-color: var(--primary-color);
     box-shadow: 0 0.05em 0.8em rgba(0, 0, 0, 0.219);
+    display: flex;
+    justify-content: space-between;
 }
 
 .corner-content {
@@ -268,7 +270,7 @@ main {
 .name-and-special {
     margin-left: 0.75em;
     display: flex;
-    width: fit-content;
+    justify-content: space-between;
 }
 
 .name-and-special > h3 {
@@ -369,4 +371,24 @@ main {
     line-height: 0.6em;
     font-size: 0.9em;
     width: fit-content;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 1.5em;
+}
+
+.filters > p {
+    font-family: "Arial";
+    color: white;
+    margin: 0.3em;
+}
+
+.filters > img {
+    transform: rotate(-90deg);
+    height: 20%;
+    margin: 0.3em;
 }
