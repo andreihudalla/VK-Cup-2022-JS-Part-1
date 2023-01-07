@@ -6,6 +6,11 @@ const viewer = document.querySelector("#viewer")
 const http = new XMLHttpRequest()
 const nomail = document.querySelector(".no-mail")
 const filters = document.querySelector(".filters")
+const filter_options = document.querySelector(".filter-options")
+const filter_button = document.querySelector(".filter-button")
+const filter_options_all = document.querySelectorAll(".filter-options > h3")
+
+var Filters = []
 
 const sidebar_buttons = document.querySelectorAll("#folders > button")
 var last_folder = null
@@ -15,6 +20,53 @@ const Step = 20
 function addClass(element,setClass){
     element.classList.add(setClass)
 }
+
+// Cyrilic to Latin alphabet converter
+function rusToLat(str) {
+    let ru = {
+      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
+      'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i', 
+      'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 
+      'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 
+      'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 
+      'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
+      'ъ': 'ie', 'ь': '', 'й': 'i'
+    };
+    let newString = [];
+    
+    return [...str].map(l => {
+      let latL = ru[l.toLocaleLowerCase()];
+      
+      if (l !== l.toLocaleLowerCase()) {
+        latL = latL.charAt(0).toLocaleUpperCase() + latL.slice(1);
+      } else if (latL === undefined) {
+        latL = l;
+      }
+      
+      return latL;
+    }).join('');
+}
+
+filter_button.addEventListener('click', () => {
+    if (filter_options.classList.contains("enabled")) {
+        filter_options.classList.remove("enabled")
+    } else {
+        filter_options.classList.add("enabled")
+    }
+})
+
+filter_options_all.forEach((button) => {
+    button.addEventListener('click', () => {
+        const Check = button.querySelector(".check_mark")
+        if (Check) {
+            if (Check.classList.contains("enabled")) {
+                Check.classList.remove("enabled")
+            } else {
+                Check.classList.add("enabled")
+            }
+        }
+    });
+})
 
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme)
@@ -59,6 +111,14 @@ function setBackButtonEnabled(value){
         viewer.setAttribute("style","display: none")
         filters.setAttribute("style","")
     }
+}
+
+function getOffset(el) {
+    const rect = el.getBoundingClientRect();
+    return {
+      left: rect.left + window.scrollX,
+      top: rect.top + window.scrollY
+    };
 }
 
 function renderListItem(data){
@@ -187,6 +247,8 @@ function renderEmail(email_date){
             const media = document.querySelector(".media")
             const download = document.querySelector(".download")
             const content = document.querySelector(".content")
+            const flaged = document.querySelector(".flaged_viewer")
+            const important = document.querySelector(".important_viewer")
             title.innerHTML = response.title
             if (response.author.avatar){
                 avatar.setAttribute("src",response.author.avatar)
@@ -194,6 +256,16 @@ function renderEmail(email_date){
                 avatar.setAttribute("src","media/user.png")
             }
             avatar.setAttribute("style","")
+            if (response.bookmark == true) {
+                flaged.setAttribute("style", "")
+            } else {
+                flaged.setAttribute("style", "display: none;")
+            }
+            if (response.important == true) {
+                important.setAttribute("style", "")
+            } else {
+                important.setAttribute("style", "display: none;")
+            }
             name.innerHTML = response.author.name+" "+response.author.surname
             date.innerHTML = getDisplayDate(response.date)
             var recipientsList = []
@@ -336,31 +408,5 @@ sidebar_buttons.forEach((button) => {
     });
 });
 
-
-// Cyrilic to Latin alphabet converter
-function rusToLat(str) {
-    let ru = {
-      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
-      'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i', 
-      'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 
-      'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 
-      'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 
-      'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
-      'ъ': 'ie', 'ь': '', 'й': 'i'
-    };
-    let newString = [];
-    
-    return [...str].map(l => {
-      let latL = ru[l.toLocaleLowerCase()];
-      
-      if (l !== l.toLocaleLowerCase()) {
-        latL = latL.charAt(0).toLocaleUpperCase() + latL.slice(1);
-      } else if (latL === undefined) {
-        latL = l;
-      }
-      
-      return latL;
-    }).join('');
-}
 
 renderFolder("Vhodyashchie")

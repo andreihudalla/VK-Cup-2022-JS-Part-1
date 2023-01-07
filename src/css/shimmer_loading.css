@@ -1,11 +1,11 @@
 :root {
-    --color-start: rgb(250,250,250);
-    --color-middle: rgb(245,245,245);
-}
-
-[data-theme="dark"] {
     --color-start: #232324;
     --color-middle: #272729;
+}
+
+[data-theme="light"] {
+    --color-start: rgb(250,250,250);
+    --color-middle: rgb(245,245,245);
 }
 
 .shimmer {

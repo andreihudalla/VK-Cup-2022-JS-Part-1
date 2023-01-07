@@ -104,6 +104,11 @@
     font-weight: 200;
 }
 
+.top-data > img {
+    height: 0.75em;
+    margin-left: 1em;
+}
+
 .bottom-data {
     height: 50%;
     display: flex;
