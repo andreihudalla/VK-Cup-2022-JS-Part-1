@@ -10,7 +10,7 @@ const filter_options = document.querySelector(".filter-options")
 const filter_button = document.querySelector(".filter-button")
 const filter_options_all = document.querySelectorAll(".filter-options > h3")
 
-var Filters = []
+var using_filters = []
 
 const sidebar_buttons = document.querySelectorAll("#folders > button")
 var last_folder = null
@@ -47,6 +47,36 @@ function rusToLat(str) {
     }).join('');
 }
 
+function apply_filters() {
+    const email_list = document.querySelectorAll("#list > div")
+    var ShownCounter = 0
+    email_list.forEach((email_element) => {
+        var hide = false
+        if (email_element.classList.contains("unread") == false && using_filters.find((e) => e == "Unread")) {
+            hide = true
+        }
+        const attachment_icon = email_element.querySelector(".attachment")
+        if (attachment_icon == null && using_filters.find((e) => e == "Attachment")) {
+            hide = true
+        }
+        const bookmark_icon = email_element.querySelector(".bookmark_icon")
+        if (bookmark_icon.classList.contains("enabled") == false && using_filters.find((e) => e == "Bookmark")) {
+            hide = true
+        }
+        if (hide == true) {
+            email_element.classList.add("hidden")
+        } else {
+            email_element.classList.remove("hidden")
+            ShownCounter += 1
+        }
+    })
+    if (ShownCounter > 0) {
+        nomail.setAttribute("style","display: none;")
+    } else {
+        nomail.setAttribute("style","")
+    }
+}
+
 filter_button.addEventListener('click', () => {
     if (filter_options.classList.contains("enabled")) {
         filter_options.classList.remove("enabled")
@@ -58,12 +88,26 @@ filter_button.addEventListener('click', () => {
 filter_options_all.forEach((button) => {
     button.addEventListener('click', () => {
         const Check = button.querySelector(".check_mark")
+        const FilterName = button.dataset.filter
         if (Check) {
             if (Check.classList.contains("enabled")) {
                 Check.classList.remove("enabled")
+                using_filters = using_filters.filter(function(e) { return e !== FilterName})
             } else {
                 Check.classList.add("enabled")
+                using_filters.push(FilterName)
             }
+            apply_filters()
+        } else {
+            filter_options_all.forEach((button) => {
+                const Check = button.querySelector(".check_mark")
+                const FilterName = button.dataset.filter
+                if (Check) {
+                    Check.classList.remove("enabled")
+                    using_filters = using_filters.filter(function(e) { return e !== FilterName})
+                    apply_filters()
+                }
+            })
         }
     });
 })
@@ -111,14 +155,6 @@ function setBackButtonEnabled(value){
         viewer.setAttribute("style","display: none")
         filters.setAttribute("style","")
     }
-}
-
-function getOffset(el) {
-    const rect = el.getBoundingClientRect();
-    return {
-      left: rect.left + window.scrollX,
-      top: rect.top + window.scrollY
-    };
 }
 
 function renderListItem(data){
@@ -355,17 +391,13 @@ function renderFolder (folder_name, first_scroll){
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             const response = JSON.parse(http.response)
-            if (response.length > 0) {
-                nomail.setAttribute("style","display: none;")
-            } else {
-                nomail.setAttribute("style","")
-            }
             if (response.length < Step) {
                 console.log("Out of mail!")
                 window.removeEventListener("scroll", handleInfiniteScroll);
             }
             ItemsRendered += response.length
             response.forEach(element => renderListItem(element))
+            apply_filters()
             setupCheckboxes()
         }
     }

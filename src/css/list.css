@@ -155,6 +155,10 @@ main {
     cursor: pointer;
 }
 
+#list > div.hidden {
+    display: none;
+}
+
 #list > div:hover {
     background-color: var(--hover-color);
 }
