@@ -398,27 +398,40 @@ main {
 
 .filter-button > p {
     font-family: "Arial";
-    color: white;
+    color: var(--primary-text-color);
     margin: 0.1em;
     user-select: none;
 }
 
 .filter-button > img {
+    width: 0.7em;
+    margin: 0.3em;
+    user-select: none;
+    transition: all 0.2s;
+}
+
+.filter-button > img.arrow {
+    filter: var(--darken-filter);
+    transform: rotate(90deg);
+    height: 0.7em;
+    margin: 0.1em;
+}
+
+.filter-button.enabled > img.arrow {
     transform: rotate(-90deg);
     height: 1em;
-    margin: 0.1em;
-    user-select: none;
+    margin: 0.2em;
 }
 
 .filter-options {
-    background-color: #303030;
+    background-color: var(--primary-color);
     width: 12em;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: absolute;
     border-radius: 0.6em;
-    transform: translate(-55%,-1em);
+    transform: translate(-55%,-0.5em);
     box-shadow: 0 0 1.5em rgba(0, 0, 0, 0.5);
     transition: all 0.3s;
     opacity: 0;
@@ -434,7 +447,7 @@ main {
 }
 
 .filter-options > h3 {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--primary-text-color);
     font-family: "Arial";
     font-weight: 300;
     text-align: left;
@@ -460,6 +473,7 @@ main {
     margin-right: 0.4em;
     opacity: 0;
     transition: opacity 0.4s;
+    filter: var(--darken-filter);
 }
 
 .filter-options > h3 > img.check_mark.enabled {
@@ -467,7 +481,7 @@ main {
 }
 
 .filter-options > h3:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--hover-color);
 }
 
 .filter-options > h3.clear {

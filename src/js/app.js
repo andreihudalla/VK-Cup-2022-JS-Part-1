@@ -80,10 +80,19 @@ function apply_filters() {
 filter_button.addEventListener('click', () => {
     if (filter_options.classList.contains("enabled")) {
         filter_options.classList.remove("enabled")
+        filter_button.classList.remove("enabled")
     } else {
         filter_options.classList.add("enabled")
+        filter_button.classList.add("enabled")
     }
 })
+
+document.addEventListener('click', function(event) {
+    if (!filter_options.contains(event.target) && !filter_button.contains(event.target)){
+        filter_options.classList.remove("enabled")
+        filter_button.classList.remove("enabled")
+    }
+  });
 
 filter_options_all.forEach((button) => {
     button.addEventListener('click', () => {
