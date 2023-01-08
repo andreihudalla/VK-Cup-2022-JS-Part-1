@@ -71,9 +71,9 @@ function apply_filters() {
         }
     })
     if (ShownCounter > 0) {
-        nomail.setAttribute("style","display: none;")
+        nomail.classList.add("hidden")
     } else {
-        nomail.setAttribute("style","")
+        nomail.classList.remove("hidden")
     }
 }
 
@@ -330,8 +330,23 @@ function renderEmail(email_date){
                 if (image){
                     var files_prefix = "1 файл"
                     if (typeof(image) == "string") {
-                        const imageElement = createElem("img",media)
+                        
+                        const downloadContainer = createElem("div",media)
+                        downloadContainer.setAttribute("class","container")
+                        const imageElement = createElem("img",downloadContainer)
                         imageElement.setAttribute("src",image)
+                        imageElement.setAttribute("class","attachment")
+                        const downloadOverlay = createElem("a",downloadContainer)
+                        downloadOverlay.setAttribute("class","overlay")
+                        downloadOverlay.setAttribute("href",image)
+                        downloadOverlay.setAttribute("download","image.png")
+                        const downloadIcon = createElem("img",downloadOverlay)
+                        downloadIcon.setAttribute("src","media/Download_Icon.png")
+                        const overlayGradient = createElem("img",downloadOverlay)
+                        overlayGradient.setAttribute("src","media/LightOverlay.png")
+                        overlayGradient.setAttribute("class","gradient")
+                        const downloadText = createElem("p",downloadOverlay)
+                        downloadText.innerHTML = "Скачать"
                     } else {
                         if (image.length > 4) {
                             files_prefix = image.length+" файлов"
@@ -339,7 +354,15 @@ function renderEmail(email_date){
                             files_prefix = image.length+" файла"
                         }
                         image.forEach((img_data) => {
-                            const imageElement = createElem("img",media)
+                            const downloadOverlay = createElem("a",media)
+                            downloadOverlay.setAttribute("class","overlay")
+                            downloadOverlay.setAttribute("href",img_data)
+                            downloadOverlay.setAttribute("download","file")
+                            const downloadIcon = createElem("img",downloadOverlay)
+                            downloadText.setAttribute("src","media/Download_Icon")
+                            const downloadText = createElem("p",downloadOverlay)
+                            downloadText.innerHTML = "Скачать"
+                            const imageElement = createElem("img",downloadOverlay)
                             imageElement.setAttribute("src",img_data)
                         })
                     }

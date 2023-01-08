@@ -39,6 +39,7 @@ body,html {
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: all 0.3s;
 }
 
 .no-mail > img {
@@ -49,6 +50,10 @@ body,html {
 .no-mail > h2 {
     font-family: "Arial";
     color: var(--primary-text-color);
+}
+
+.no-mail.hidden {
+    display: none;
 }
 
 .top-level-header {
@@ -153,10 +158,14 @@ main {
     box-sizing: border-box;
     padding-right: 1.5em;
     cursor: pointer;
+    transition-property: opacity, height, display;
+    transition-duration: 0.2s, 0.3s, 0s;
+    transition-delay: 0s, 0s, 0.4s;
 }
 
 #list > div.hidden {
-    display: none;
+    opacity: 0;
+    height: 0;
 }
 
 #list > div:hover {

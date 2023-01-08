@@ -2,12 +2,16 @@
     --primary-text-color: #E7E8EA;
     --primary-color: #232324;
     --grey-text: rgb(154, 154, 154);
+    --darken-filter: brightness(1);
+    --lighten-filter: brightness(0.1);
 }
 
 [data-theme="light"] {
     --primary-text-color: black;
     --primary-color: white;
     --grey-text: rgb(30, 30, 30);
+    --darken-filter: brightness(0.2);
+    --lighten-filter: brightness(1);
 }
 
 #viewer{
@@ -134,12 +138,61 @@
     gap: 0.5em;
 }
 
-.media > img {
+.media > .container {
     width: 17em;
     height: 12em;
+    position: relative;
+}
+
+.container > .attachment {
     border-radius: 0.75em;
     transition: all 0.5s;
     user-select: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay {
+    border-radius: 0.75em;
+    width: 100%;
+    height: 100%;
+    transition: all 0.4s;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.overlay:hover {
+    opacity: 1;
+}
+
+.overlay > img:not(.attachment,.gradient) {
+    position: absolute;
+    z-index: 101;
+    transform: translate(-50%,-50%);
+    bottom: 1%;
+    left: 35%;
+    width: 1em;
+}
+
+.overlay > p {
+    position: absolute;
+    z-index: 101;
+    color: var(--primary-text-color);
+    font-family: "Arial";
+    bottom: -8%;
+    left: 54%;
+    transform: translate(-50%,-50%);
+    user-select: none;
+}
+
+.overlay > .gradient {
+    position: absolute;
+    z-index: 100;
+    border-radius: 0.72em;
+    width: 100%;
+    height: 100%;
+    filter: var(--lighten-filter);
 }
 
 #viewer > .download {
