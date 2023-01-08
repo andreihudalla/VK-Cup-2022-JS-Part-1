@@ -47,8 +47,9 @@ function rusToLat(str) {
     }).join('');
 }
 
-function apply_filters() {
+function apply_filters(animate) {
     const email_list = document.querySelectorAll("#list > div")
+    const indicators = filter_button.querySelectorAll(".indicator")
     var ShownCounter = 0
     email_list.forEach((email_element) => {
         var hide = false
@@ -63,11 +64,23 @@ function apply_filters() {
         if (bookmark_icon.classList.contains("enabled") == false && using_filters.find((e) => e == "Bookmark")) {
             hide = true
         }
-        if (hide == true) {
-            email_element.classList.add("hidden")
-        } else {
-            email_element.classList.remove("hidden")
+        email_element.classList.add("hidden")
+        if (hide !== true) {
             ShownCounter += 1
+        }
+        setTimeout(() => {
+            if (hide == true) {
+                email_element.classList.add("hidden")
+            } else {
+                email_element.classList.remove("hidden")
+            }
+        }, 10);
+    })
+    indicators.forEach((indicator) => {
+        if (using_filters.find((e) => e == indicator.dataset.filter)) {
+            indicator.classList.remove("hidden")
+        } else {
+            indicator.classList.add("hidden")
         }
     })
     if (ShownCounter > 0) {
@@ -92,7 +105,7 @@ document.addEventListener('click', function(event) {
         filter_options.classList.remove("enabled")
         filter_button.classList.remove("enabled")
     }
-  });
+});
 
 filter_options_all.forEach((button) => {
     button.addEventListener('click', () => {
@@ -429,7 +442,7 @@ function renderFolder (folder_name, first_scroll){
             }
             ItemsRendered += response.length
             response.forEach(element => renderListItem(element))
-            apply_filters()
+            apply_filters(true)
             setupCheckboxes()
         }
     }

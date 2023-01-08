@@ -158,9 +158,8 @@ main {
     box-sizing: border-box;
     padding-right: 1.5em;
     cursor: pointer;
-    transition-property: opacity, height, display;
-    transition-duration: 0.2s, 0.3s, 0s;
-    transition-delay: 0s, 0s, 0.4s;
+    transition-property: opacity, height;
+    transition-duration: 0.2s, 0.3s;
 }
 
 #list > div.hidden {
@@ -412,11 +411,31 @@ main {
     user-select: none;
 }
 
-.filter-button > img {
+.indicator {
     width: 0.7em;
     margin: 0.3em;
     user-select: none;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    opacity: 1;
+}
+
+.indicator.hidden {
+    transform: rotate(90deg);
+    opacity: 0;
+    width: 0 !important;
+    margin: 0;
+}
+
+.indicator[data-filter="Attachment"] {
+    width: 0.7em;
+}
+
+.indicator[data-filter="Unread"] {
+    width: 0.4em;
+}
+
+.indicator[data-filter="Bookmark"] {
+    width: 0.6em;
 }
 
 .filter-button > img.arrow {
@@ -424,6 +443,7 @@ main {
     transform: rotate(90deg);
     height: 0.7em;
     margin: 0.1em;
+    transition: all 0.3s ease-in-out;
 }
 
 .filter-button.enabled > img.arrow {
@@ -440,7 +460,8 @@ main {
     align-items: center;
     position: absolute;
     border-radius: 0.6em;
-    transform: translate(-55%,-0.5em);
+    transform: translate(-10%,-0.5em);
+    right: 0;
     box-shadow: 0 0 1.5em rgba(0, 0, 0, 0.5);
     transition: all 0.3s;
     opacity: 0;
@@ -468,12 +489,14 @@ main {
     display: flex;
     align-items: center;
     margin: 0;
+    user-select: none;
 }
 
 .filter-options > h3 > img {
     width: 1em;
     margin-left: 0.4em;
     margin-right: 0.5em;
+    user-select: none;
 }
 
 .filter-options > h3 > img.check_mark {
