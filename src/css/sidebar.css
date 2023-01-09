@@ -30,6 +30,7 @@
     align-items: center;
     flex-direction: column;
     margin: 1em;
+    position: relative;
 }
 
 #folders {
@@ -59,7 +60,7 @@
     filter: var(--darken-filter);
 }
 
-#sidebar > button {
+#sidebar > .white-button {
     background: var(--send-color);
     color: var(--send-text);
     height: 2.5em;
@@ -73,13 +74,14 @@
     border: var(--send-border) solid 2px;
 }
 
-#sidebar > button:hover{
+#sidebar > .white-button:hover{
     background: var(--send-hover);
 }
 
 #folders > button {
     background: var(--button-color);
     color: var(--button-text);
+    user-select: none;
 }
 
 #folders > button:hover {
@@ -100,6 +102,10 @@
     display: none;
 }
 
+#settings_button {
+    margin-top: max(calc(100vh - 31em), 1em);
+    margin-bottom: 0;
+}
 
 @media screen and (max-width: 700px) {
     #sidebar {

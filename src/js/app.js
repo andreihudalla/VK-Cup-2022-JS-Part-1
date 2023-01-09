@@ -448,6 +448,7 @@ function renderFolder (folder_name, first_scroll){
     }
 }
 
+
 const handleInfiniteScroll = () => {
     const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
     if (endOfPage) {
@@ -473,6 +474,7 @@ function setupCheckboxes(){
 
 sidebar_buttons.forEach((button) => {
     button.addEventListener('click', () => {
+        if (button.classList.contains("selected")) { return }
         renderFolder(rusToLat(button.getAttribute("folder")),true)
         window.addEventListener("scroll", handleInfiniteScroll);
         sidebar_buttons.forEach((loop_button) => {
