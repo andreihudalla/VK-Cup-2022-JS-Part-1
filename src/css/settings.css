@@ -1,0 +1,24 @@
+:root {
+    --settings-color: #171717;
+}
+
+[data-theme="light"] {
+    --settings-color: white;
+}
+
+#settings {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    transform: translate(0,100%);
+    background: var(--settings-color);
+    transition: all 0.4s;
+    opacity: 0;
+    height: 40%;
+    box-shadow: 0px -1em 3em var(--settings-color);
+}
+
+#settings.enabled {
+    opacity: 1;
+    transform: none;
+}

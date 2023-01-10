@@ -9,6 +9,8 @@ const filters = document.querySelector(".filters")
 const filter_options = document.querySelector(".filter-options")
 const filter_button = document.querySelector(".filter-button")
 const filter_options_all = document.querySelectorAll(".filter-options > h3")
+const settings_button = document.querySelector("#settings_button")
+const settings = document.querySelector("#settings")
 
 var using_filters = []
 
@@ -487,5 +489,14 @@ sidebar_buttons.forEach((button) => {
     });
 });
 
+settings_button.addEventListener("click", () => {
+    if (settings.classList.contains("enabled")) {
+        settings.classList.remove("enabled")
+        main.classList.remove("minimized")
+    } else {
+        settings.classList.add("enabled")
+        main.classList.add("minimized")
+    }
+})
 
 renderFolder("Vhodyashchie")

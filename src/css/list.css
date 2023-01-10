@@ -125,6 +125,12 @@ body,html {
 main {
     display: flex;
     width: 100%;
+    transition: all 0.4s;
+}
+
+main.minimized {
+    display: flex;
+    transform: scale(0.7) translate(0,-18%);
 }
 
 .primary {
