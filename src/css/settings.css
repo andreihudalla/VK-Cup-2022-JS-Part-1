@@ -1,9 +1,81 @@
 :root {
+    --shadow-color: rgba(0, 0, 0, 0.6);
     --settings-color: #171717;
+    --button-color: #19191a;
+    --button-hover: rgba(255, 255, 255, 0.04);
+    --button-text: white;
+    --border-color: rgba(255, 255, 255, 0.04);
 }
 
 [data-theme="light"] {
+    --shadow-color: rgba(0, 0, 0, 0.3);
     --settings-color: white;
+    --button-color: white;
+    --button-hover: rgb(244, 244, 244);
+    --button-text: black;
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+
+#settings_button {
+    bottom: 0.5em;
+    left: 1.2em;
+    position: fixed;
+    border: none;
+    border-radius: 0.5em;
+    font-family: 'Arial';
+    font-size: 0.8em;
+    width: fit-content;
+    height: 2em;
+    margin-bottom: 0.5em;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    background: var(--button-color);
+    color: var(--button-text);
+    user-select: none;
+}
+
+#settings_button > img {
+    height: 0.8em;
+    margin-right: 0.75em;
+    filter: var(--darken-filter);
+}
+
+#settings_button:hover {
+    background: var(--button-hover);
+}
+
+#close-settings {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 0.3em;
+    background: var(--button-color);
+    transition: all 0.2s;
+    z-index: 2;
+}
+
+#close-settings:hover {
+    background: var(--button-hover);
+    border: none;
+}
+
+#close-settings > img {
+    width: 100%;
+    filter: var(--darken-filter);
+}
+
+#settings.enabled {
+    opacity: 1;
+    transform: none;
 }
 
 #settings {
@@ -14,11 +86,180 @@
     background: var(--settings-color);
     transition: all 0.4s;
     opacity: 0;
-    height: 40%;
-    box-shadow: 0px -1em 3em var(--settings-color);
+    height: 49%;
+    box-shadow: 0px 0.1em 2em var(--shadow-color);
+    display: flex;
 }
 
-#settings.enabled {
+#settings .options {
+    width: 16.25em;
+    height: 100%;
+    border-right: 0.05em;
+    border-right-style: solid;
+    border-color: var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25em;
+}
+
+#settings .options > button {
+    display: flex;
+    align-items: center;
+    border: none;
+    width: 100%;
+    border-radius: 0.5em;
+    font-family: 'Arial';
+    font-size: 0.8em;
+    font-weight: 700;
+    height: 28px;
+    margin-bottom: 0.75em;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    color: var(--button-text);
+    background: none;
+    transition: all 0.3s;
+    user-select: none;
+    padding: 10px 1em;
+}
+
+#settings .options > button:hover {
+    background: var(--button-hover);
+}
+
+#settings .options > button.selected {
+    background: var(--button-selected);
+    font-size: 0.84em;
+    height: 32px;
+}
+
+#settings .options > button > img {
+    width: 15px;
+    margin: 0.5em;
+}
+
+#settings .content > div {
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    transition: all 0.2s;
+    z-index: -100;
+    opacity: 0;
+    position: absolute;
+}
+
+#settings .content > div.selected {
     opacity: 1;
-    transform: none;
+    z-index: 1;
+}
+
+.language > p {
+    margin-top: 0;
+}
+
+.languages > p {
+    display: flex;
+    align-items: center;
+    margin: 0.5em;
+}
+
+.languages > p > img {
+    margin: 6px;
+    width: 1em;
+}
+
+.languages > p > img.flag {
+    height: 0.75em;
+}
+
+.languages > p > img.check {
+    cursor: pointer;
+}
+
+.themes {
+    width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.theme > p {
+    margin-top: 0;
+}
+
+.themes > .color-theme {
+    margin: 6px 10px;
+    border: none;
+}
+
+.themes > .primary-theme {
+    margin: 10px;
+    border: none;
+    width: 120px;
+    height: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.themes > div {
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 0.2em;
+    position: relative;
+}
+
+.themes > div:hover {
+    transform: scale(1.2) rotate(1deg);
+    border-radius: 0.5em;
+}
+
+.themes > .primary-theme > img {
+    width: 75%;
+}
+
+.themes > .color-theme {
+    margin: 6px 10px;
+    border: none;
+}
+
+.themes > .color-theme:not(.color) {
+    width: 67.5px;
+    height: 40px;
+}
+
+.themes > div > .fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 95, 249, 0.48);
+    border-radius: 0.2em;
+    transition: all 0.2s;
+    opacity: 0;
+    position: absolute;
+}
+
+.themes > div.selected > .fill {
+    opacity: 1;
+}
+
+.themes > div:hover > .fill {
+    border-radius: 0.5em;
+}
+
+.themes > div > .fill > img {
+    width: 15%;
+}
+
+@media screen and (max-width: 700px) {
+    #settings_button {
+        width: 2.5em;
+        text-indent:-9999px;
+    }
+    #settings_button > img {
+        height: 1em;
+        padding-left: 0.2em;
+    }
 }

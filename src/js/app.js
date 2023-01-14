@@ -1,4 +1,5 @@
 const main = document.querySelector("main")
+const pageTitle = document.querySelector("title")
 const sidebar = document.querySelector("#sidebar")
 const primary = document.querySelector(".primary")
 const list = document.querySelector("#list")
@@ -10,17 +11,45 @@ const filter_options = document.querySelector(".filter-options")
 const filter_button = document.querySelector(".filter-button")
 const filter_options_all = document.querySelectorAll(".filter-options > h3")
 const settings_button = document.querySelector("#settings_button")
+const close_settings_button = document.querySelector("#close-settings")
 const settings = document.querySelector("#settings")
-
-var using_filters = []
-
 const sidebar_buttons = document.querySelectorAll("#folders > button")
+const settings_option_buttons = document.querySelectorAll("#settings .options > button")
+const settings_content = document.querySelector("#settings .content")
+const theme_buttons = document.querySelectorAll(".themes > div")
+
 var last_folder = null
 var ItemsRendered = 0
 const Step = 20
+var using_filters = []
 
 function addClass(element,setClass){
     element.classList.add(setClass)
+}
+
+function setCookie(name, value, exdays) {
+    var d, expires;
+    exdays = exdays || 1;
+    d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + "; " + expires;
+}
+
+function getCookie(name) {
+    var cookie, c;
+    cookies = document.cookie.split(';');
+    for (var i=0; i < cookies.length; i++) {
+        c = cookies[i].split('=');
+        if (c[0] == name) {
+            return c[1];
+        }
+    }
+    return "";
+}
+
+function setTitle(title) {
+    pageTitle.innerHTML = title
 }
 
 // Cyrilic to Latin alphabet converter
@@ -107,6 +136,10 @@ document.addEventListener('click', function(event) {
         filter_options.classList.remove("enabled")
         filter_button.classList.remove("enabled")
     }
+    if (!settings.contains(event.target)&& !settings_button.contains(event.target)){
+        settings.classList.remove("enabled")
+        main.classList.remove("minimized")
+    }
 });
 
 filter_options_all.forEach((button) => {
@@ -137,12 +170,24 @@ filter_options_all.forEach((button) => {
 })
 
 function setTheme(theme) {
+    const Logo = document.querySelector("#Logo_Full")
+    const button = document.querySelector(".themes [theme='"+theme+"']")
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
     if (theme == "light") {
-        const Logo = document.querySelector("#Logo_Full")
         Logo.setAttribute("src","Media/Mail_Full_Light.png")
-
+    } else if (theme == "dark") {
+        Logo.setAttribute("src","Media/Mail_Full.png")
+    }
+    if (button) {
+        if (button.classList.contains("selected")) { return }
+        theme_buttons.forEach((loop_button) => {
+            if (button === loop_button) {
+                loop_button.classList.add("selected")
+            } else {
+                loop_button.classList.remove("selected")
+            }   
+        });
     }
 }
 
@@ -295,6 +340,7 @@ function renderEmail(email_date){
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             viewer.innerHTML = Inner
+            setTitle("Почта Mail.ru")
             const response = JSON.parse(http.response)[0]
             const title = document.querySelector(".title")
             const flag_text = document.querySelector(".flag")
@@ -450,6 +496,17 @@ function renderFolder (folder_name, first_scroll){
     }
 }
 
+function setSettingsOption(option) {
+    const selected = settings_content.querySelector("."+option)
+    settings.querySelectorAll("div").forEach((loop_section) => {
+        if (selected === loop_section) {
+            loop_section.classList.add("selected")
+        } else {
+            loop_section.classList.remove("selected")
+        }
+    });
+}
+
 
 const handleInfiniteScroll = () => {
     const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
@@ -477,13 +534,14 @@ function setupCheckboxes(){
 sidebar_buttons.forEach((button) => {
     button.addEventListener('click', () => {
         if (button.classList.contains("selected")) { return }
+        setTitle(button.getAttribute("folder") + " - Почта Mail.ru")
         renderFolder(rusToLat(button.getAttribute("folder")),true)
         window.addEventListener("scroll", handleInfiniteScroll);
         sidebar_buttons.forEach((loop_button) => {
             if (button === loop_button) {
-                loop_button.setAttribute("class","selected")
+                loop_button.classList.add("selected")
             } else if (button.className !== "white-button") {
-                loop_button.setAttribute("class","")
+                loop_button.classList.remove("selected")
             }
         });
     });
@@ -498,5 +556,50 @@ settings_button.addEventListener("click", () => {
         main.classList.add("minimized")
     }
 })
+
+close_settings_button.addEventListener("click", () => {
+    if (settings.classList.contains("enabled")) {
+        settings.classList.remove("enabled")
+        main.classList.remove("minimized")
+    }
+})
+
+settings_option_buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (button.classList.contains("selected")) { return }
+        setSettingsOption(button.getAttribute("option"))
+        settings_option_buttons.forEach((loop_button) => {
+            if (button === loop_button) {
+                loop_button.classList.add("selected")
+            } else {
+                loop_button.classList.remove("selected")
+            }   
+        });
+    });
+});
+
+theme_buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (button.classList.contains("selected")) { return }
+        const theme = button.getAttribute("theme")
+        setCookie("theme",theme,2)
+        setTheme(theme)
+        theme_buttons.forEach((loop_button) => {
+            if (button === loop_button) {
+                loop_button.classList.add("selected")
+            } else {
+                loop_button.classList.remove("selected")
+            }   
+        });
+    });
+});
+
+const last_used_theme = getCookie("theme")
+
+if (last_used_theme) {
+    setTheme(last_used_theme)
+} else {
+    setTheme("dark")
+}
 
 renderFolder("Vhodyashchie")

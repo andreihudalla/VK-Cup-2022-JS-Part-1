@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>Почта</title>
+        <title>Почта Mail.ru</title>
         <link rel="stylesheet" href="css/list.css">
         <link rel="stylesheet" href="css/viewer.css">
         <link rel="stylesheet" href="css/sidebar.css">
@@ -60,7 +60,6 @@
                     <button type="button" folder="Архив"><img src="media/Icon_5.png">Архив</button>
                     <button type="button" folder="Спам"><img src="media/Icon_6.png">Спам</button>
                     <button type="button" folder="Корзина"><img src="media/Icon_7.png">Корзина</button>
-                    <button id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
                 </div>
             </div>
             <div class="primary">
@@ -99,8 +98,51 @@
                 </div>
             </div>
         </main>
+        <button id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
         <div id="settings">
-
+            <div class="options">
+                <button type="button" option="theme" class="selected">Внешний вид</button>
+                <button type="button" option="language">Язык: Русский<img src="media/flag_ru.png"></button>
+            </div>
+            <div class="content">
+                <div class="theme selected">
+                    <p>Настройки внешнего вида вашей почты и темы оформления</p>
+                    <div class="themes">
+                        <div style="background: #4A352F" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #424242" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #5A355A" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #35385A" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #35385A" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #E73672" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #F44336" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #388E3C" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #81D8D0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #E2DCD2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #FFEBCD" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #E7EED2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #D0F0F7" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #C9D0FB" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #DDF3FF" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div style="background: #F0F0F0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div theme="dark" style="background-color: black;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img src="media/Mail_Full.png">
+                        </div>
+                        <div theme="light" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img src="media/Mail_Full_Light.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="language">
+                    <p>Изменить язык</p>
+                    <div class="languages">
+                        <p><img src="media/circle_checked.png" class="check"><img src="media/flag_ru.png" class="flag">Русский</p>
+                        <p><img src="media/circle_empty.png" class="check"><img src="media/flag_en.png" class="flag">English</p>
+                    </div>
+                </div>
+            </div>
+            <button id="close-settings"><img src="media/close.png"></button>
         </div>
     </body>
     <script src="js/app.js"></script>

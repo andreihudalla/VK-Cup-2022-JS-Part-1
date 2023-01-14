@@ -39,7 +39,7 @@ function sendRes(url, contentType, response){
         fs.readFile(file,(error,content) => {
             if (error) {
                 response.writeHead(404)
-                console.log("Could not find db.json...")
+                console.log('\x1b[31m',"Could not find db.json...")
                 response.end()
             } else {
                 DB = JSON.parse(content)
@@ -48,7 +48,7 @@ function sendRes(url, contentType, response){
                 var Argument = url.split("/")[3]
                 var Amount = url.split("/")[4]
                 var RemoveFirst = url.split("/")[5]
-                console.log("Recieved API request: " + url)
+                console.log('\x1b[35m',"Recieved API request: " + url)
                 if (RemoveFirst == null || Amount == null) {RemoveFirst = 0; Amount = 20}
                 switch (RequestType){
                     // Getting emails in certain folders with small data
@@ -94,12 +94,12 @@ function sendRes(url, contentType, response){
                 response.writeHead(404)
                 response.write("File not found | 404")
                 response.end()
-                console.log("Could not find file: "+file)
+                console.log('\x1b[31m',"Could not find file: "+file)
             } else {
                 response.writeHead(200, {'Content-Type' : contentType})
                 response.write(content)
                 response.end()
-                console.log("Got file: " + file)
+                console.log('\x1b[0m',"Got file: " + file)
             }
         })
     }
@@ -129,8 +129,8 @@ const server = http.createServer(function(request,response){
 
 server.listen(port, function(error){
     if (error) {
-        console.log("Something went wrong!", error)
+        console.log('\x1b[31m',"Something went wrong!", error)
     } else{
-        console.log("Server is listening on port "+ port)
+        console.log('\x1b[0m',"Server is listening on port "+ port)
     }
 })

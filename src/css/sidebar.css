@@ -1,5 +1,4 @@
 :root {
-    --button-color: #19191a;
     --darken-filter: brightness(1);
     --send-color: #ffffff;
     --send-hover: #d3d3d3;
@@ -12,7 +11,6 @@
 }
 
 [data-theme="light"] {
-    --button-color: #19191a;
     --darken-filter: brightness(0.2);
     --send-color: #ffffff;
     --send-hover: #d3d3d3;
@@ -52,6 +50,9 @@
     transition: background-color 0.3s, height 0.3s;
     display: flex;
     align-items: center;
+    background: var(--button-color);
+    color: var(--button-text);
+    user-select: none;
 }
 
 #folders > button > img {
@@ -76,12 +77,6 @@
 
 #sidebar > .white-button:hover{
     background: var(--send-hover);
-}
-
-#folders > button {
-    background: var(--button-color);
-    color: var(--button-text);
-    user-select: none;
 }
 
 #folders > button:hover {
