@@ -1,6 +1,5 @@
 :root {
     --primary-text-color: #E7E8EA;
-    --primary-color: #232324;
     --grey-text: rgb(154, 154, 154);
     --darken-filter: brightness(1);
     --lighten-filter: brightness(0.1);
@@ -8,7 +7,6 @@
 
 [data-theme="light"] {
     --primary-text-color: black;
-    --primary-color: white;
     --grey-text: rgb(30, 30, 30);
     --darken-filter: brightness(0.2);
     --lighten-filter: brightness(1);

@@ -1,7 +1,7 @@
 :root {
     --shadow-color: rgba(0, 0, 0, 0.6);
     --settings-color: #171717;
-    --button-color: #19191a;
+    --button-color: rgba(0,0,0,0);
     --button-hover: rgba(255, 255, 255, 0.04);
     --button-text: white;
     --border-color: rgba(255, 255, 255, 0.04);
@@ -10,7 +10,7 @@
 [data-theme="light"] {
     --shadow-color: rgba(0, 0, 0, 0.3);
     --settings-color: white;
-    --button-color: white;
+    --button-color: rgba(255,255,255,0);
     --button-hover: rgb(244, 244, 244);
     --button-text: black;
     --border-color: rgba(0, 0, 0, 0.1);
@@ -34,6 +34,7 @@
     background: var(--button-color);
     color: var(--button-text);
     user-select: none;
+    transition: all 0.3s;
 }
 
 #settings_button > img {
@@ -243,6 +244,7 @@
 
 .themes > div.selected > .fill {
     opacity: 1;
+    z-index: 2;
 }
 
 .themes > div:hover > .fill {
@@ -253,6 +255,18 @@
     width: 15%;
 }
 
+.themes > div > .demo {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 0.2em;
+    transition: all 0.2s;
+}
+
+.themes > div:hover > .demo {
+    border-radius: 0.5em;
+}
+
 @media screen and (max-width: 700px) {
     #settings_button {
         width: 2.5em;
@@ -261,5 +275,9 @@
     #settings_button > img {
         height: 1em;
         padding-left: 0.2em;
+    }
+    .themes {
+        width: 60%;
+        overflow: visible;
     }
 }

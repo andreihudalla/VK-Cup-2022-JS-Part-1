@@ -52,6 +52,19 @@ function setTitle(title) {
     pageTitle.innerHTML = title
 }
 
+function brightnessByColor(color) {
+    var color = "" + color, isHEX = color.indexOf("#") == 0, isRGB = color.indexOf("rgb") == 0;
+    if (isHEX) {
+      var m = color.substr(1).match(color.length == 7 ? /(\S{2})/g : /(\S{1})/g);
+      if (m) var r = parseInt(m[0], 16), g = parseInt(m[1], 16), b = parseInt(m[2], 16);
+    }
+    if (isRGB) {
+      var m = color.match(/(\d+){3}/g);
+      if (m) var r = m[0], g = m[1], b = m[2];
+    }
+    if (typeof r != "undefined") return ((r*299)+(g*587)+(b*114))/1000;
+}
+
 // Cyrilic to Latin alphabet converter
 function rusToLat(str) {
     let ru = {
@@ -172,12 +185,20 @@ filter_options_all.forEach((button) => {
 function setTheme(theme) {
     const Logo = document.querySelector("#Logo_Full")
     const button = document.querySelector(".themes [theme='"+theme+"']")
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-    if (theme == "light") {
-        Logo.setAttribute("src","Media/Mail_Full_Light.png")
-    } else if (theme == "dark") {
-        Logo.setAttribute("src","Media/Mail_Full.png")
+    const root = document.querySelector(':root');
+    var IsCustom = false
+    if (theme !== "dark" && theme !== "light") {
+        IsCustom = true
+    }
+    if (theme.substring(0,1) == "#") {
+        const brightness = brightnessByColor(theme)
+        root.style.setProperty('--background-content', theme);
+        if (brightness > 150) {
+            theme = "light"
+        }
+    }
+    switch (theme){
+        case "anime": {root.style.setProperty('--background-content', "url(../media/anime.jpg)"); theme="dark";}
     }
     if (button) {
         if (button.classList.contains("selected")) { return }
@@ -188,6 +209,18 @@ function setTheme(theme) {
                 loop_button.classList.remove("selected")
             }   
         });
+    }
+    document.documentElement.setAttribute('data-custom-theme', IsCustom)
+    localStorage.setItem('custom-theme', IsCustom)
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+    if (IsCustom == false) {
+        root.style.setProperty('--background-content', null)
+    }
+    if (theme == "light") {
+        Logo.setAttribute("src","Media/Mail_Full_Light.png")
+    } else {
+        Logo.setAttribute("src","Media/Mail_Full.png")
     }
 }
 
@@ -581,7 +614,12 @@ settings_option_buttons.forEach((button) => {
 theme_buttons.forEach((button) => {
     button.addEventListener('click', () => {
         if (button.classList.contains("selected")) { return }
-        const theme = button.getAttribute("theme")
+        let theme = button.getAttribute("theme")
+        if (theme == null) {
+            if (button.classList.contains("color-theme")) {
+                theme = button.getAttribute("color")
+            }
+        }
         setCookie("theme",theme,2)
         setTheme(theme)
         theme_buttons.forEach((loop_button) => {

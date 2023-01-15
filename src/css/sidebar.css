@@ -4,7 +4,6 @@
     --send-hover: #d3d3d3;
     --send-text: #19191a;
     --send-border: rgb(197, 197, 197);
-    --button-color: #19191a;
     --button-hover: rgba(255, 255, 255, 0.04);
     --button-selected: rgba(255, 255, 255, 0.08);
     --button-text: white;
@@ -16,9 +15,8 @@
     --send-hover: #d3d3d3;
     --send-text: #19191a;
     --send-border: rgb(197, 197, 197);
-    --button-color: white;
-    --button-hover: rgb(244, 244, 244);
-    --button-selected: rgb(230,230,230);
+    --button-hover: rgba(0, 0, 0, 0.04);
+    --button-selected: rgba(0, 0, 0, 0.08);
     --button-text: black;
 }
 
@@ -50,7 +48,7 @@
     transition: background-color 0.3s, height 0.3s;
     display: flex;
     align-items: center;
-    background: var(--button-color);
+    background: none;
     color: var(--button-text);
     user-select: none;
 }
