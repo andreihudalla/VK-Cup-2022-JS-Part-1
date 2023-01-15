@@ -17,7 +17,9 @@ const sidebar_buttons = document.querySelectorAll("#folders > button")
 const settings_option_buttons = document.querySelectorAll("#settings .options > button")
 const settings_content = document.querySelector("#settings .content")
 const theme_buttons = document.querySelectorAll(".themes > div")
+const language_labels = document.querySelectorAll(".languages > p")
 
+var lang_current = null
 var last_folder = null
 var ItemsRendered = 0
 const Step = 20
@@ -540,6 +542,31 @@ function setSettingsOption(option) {
     });
 }
 
+// Language replacements:
+
+const localization = {
+    "Inbox": "Входящие",
+}
+
+function setLanugage(language) {
+    if (lang_current == language) { return }
+    const lang_button = settings.querySelector("#lang_button")
+    var text = "Язык: Русский"
+    if (language == "en") {
+        text = "Language: English"
+    }
+    lang_button.innerHTML = text+'<img src="media/flag_'+language+'.png">'
+    language_labels.forEach((loop_label) => {
+        if (loop_label.getAttribute("language") == language) {
+            loop_label.classList.add("selected")
+        } else {
+            loop_label.classList.remove("selected")
+        }   
+    });
+    lang_current = language
+    // Setup done
+    
+}
 
 const handleInfiniteScroll = () => {
     const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
@@ -632,12 +659,34 @@ theme_buttons.forEach((button) => {
     });
 });
 
-const last_used_theme = getCookie("theme")
+language_labels.forEach((label) => {
+    const button = label.querySelector(".check")
+    button.addEventListener('click', () => {
+        if (label.classList.contains("selected")) { return }
+        let language = label.getAttribute("language")
+        setCookie("language",language,2)
+        setLanugage(language)
+        language_labels.forEach((loop_label) => {
+            if (label === loop_label) {
+                loop_label.classList.add("selected")
+            } else {
+                loop_label.classList.remove("selected")
+            }   
+        });
+    });
+});
 
+const last_used_theme = getCookie("theme")
+const last_user_lang = getCookie("language")
 if (last_used_theme) {
     setTheme(last_used_theme)
 } else {
     setTheme("dark")
+}
+if (last_user_lang) {
+    setLanugage(last_user_lang)
+} else {
+    setLanugage("ru")
 }
 
 renderFolder("Vhodyashchie")
