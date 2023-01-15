@@ -40,7 +40,7 @@ function setCookie(name, value, exdays) {
 
 function getCookie(name) {
     var cookie, c;
-    cookies = document.cookie.split(';');
+    cookies = document.cookie.split('; ');
     for (var i=0; i < cookies.length; i++) {
         c = cookies[i].split('=');
         if (c[0] == name) {
@@ -544,11 +544,7 @@ function setSettingsOption(option) {
 
 // Language replacements:
 
-const localization = {
-    "Inbox": "Входящие",
-}
-
-function setLanugage(language) {
+function setLanguage(language) {
     if (lang_current == language) { return }
     const lang_button = settings.querySelector("#lang_button")
     var text = "Язык: Русский"
@@ -566,6 +562,7 @@ function setLanugage(language) {
     lang_current = language
     // Setup done
     
+    // Tomorow: use the old algorithm and reconnect event listeners.
 }
 
 const handleInfiniteScroll = () => {
@@ -665,7 +662,7 @@ language_labels.forEach((label) => {
         if (label.classList.contains("selected")) { return }
         let language = label.getAttribute("language")
         setCookie("language",language,2)
-        setLanugage(language)
+        setLanguage(language)
         language_labels.forEach((loop_label) => {
             if (label === loop_label) {
                 loop_label.classList.add("selected")
@@ -676,17 +673,18 @@ language_labels.forEach((label) => {
     });
 });
 
-const last_used_theme = getCookie("theme")
-const last_user_lang = getCookie("language")
-if (last_used_theme) {
-    setTheme(last_used_theme)
-} else {
-    setTheme("dark")
-}
-if (last_user_lang) {
-    setLanugage(last_user_lang)
-} else {
-    setLanugage("ru")
-}
-
-renderFolder("Vhodyashchie")
+document.addEventListener("DOMContentLoaded",() => {
+    const last_used_theme = getCookie("theme")
+    const last_used_lang = getCookie("language")
+    if (last_used_theme) {
+        setTheme(last_used_theme)
+    } else {
+        setTheme("dark")
+    }
+    if (last_used_lang) {
+        setLanguage(last_used_lang)
+    } else {
+        setLanguage("ru")
+    }
+    renderFolder("Vhodyashchie")
+})
