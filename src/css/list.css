@@ -51,6 +51,7 @@
 body,html {
     margin: 0px;
     background: var(--background-content);
+    background-attachment: fixed;
     background-size: cover;
 }
 
@@ -87,7 +88,8 @@ body,html {
     box-shadow: 0 0.05em 0.8em rgba(0, 0, 0, 0.219);
     display: flex;
     justify-content: space-between;
-    backdrop-filter: var(--header-filter);
+    backdrop-filter: var(--header-filter) brightness(0.6);
+    z-index: 999;
 }
 
 .corner-content {
@@ -147,15 +149,25 @@ body,html {
     display: none;
 }
 
+body {
+    height: calc(100vh - 4em) !important;
+    z-index: 1;
+}
+
 main {
     display: flex;
     width: 100%;
     transition: all 0.4s;
+    backdrop-filter: brightness(0.5) saturate(95%);
+    border-radius: 0;
+    min-height: 100%;
+    z-index: 1;
 }
 
 main.minimized {
     display: flex;
     transform: scale(0.7) translate(0,-18%);
+    border-radius: 1em;
 }
 
 .primary {
@@ -165,6 +177,7 @@ main.minimized {
     height: calc(100% - 5em);
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 #list{
@@ -493,17 +506,18 @@ main.minimized {
     transform: translate(-10%,-0.5em);
     right: 0;
     box-shadow: 0 0 1.5em rgba(0, 0, 0, 0.5);
-    transition: all 0.3s;
+    transition-property: transform, position,opacity,height;
+    transition-duration: 0.3s;
     opacity: 0;
     height: 5em;
     justify-content: center;
-    z-index: -100;
+    z-index: -1;
 }
 
 .filter-options.enabled {
     opacity: 1;
     height: 10em;
-    z-index: 100;
+    z-index: 101 !important;
 }
 
 .filter-options > h3 {

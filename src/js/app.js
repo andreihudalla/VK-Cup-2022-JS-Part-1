@@ -18,6 +18,7 @@ const settings_option_buttons = document.querySelectorAll("#settings .options > 
 const settings_content = document.querySelector("#settings .content")
 const theme_buttons = document.querySelectorAll(".themes > div")
 const language_labels = document.querySelectorAll(".languages > p")
+const all = document.querySelectorAll("*")
 
 var lang_current = null
 var last_folder = null
@@ -200,7 +201,32 @@ function setTheme(theme) {
         }
     }
     switch (theme){
-        case "anime": {root.style.setProperty('--background-content', "url(../media/anime.jpg)"); theme="dark";}
+        case "cat": {root.style.setProperty('--background-content', "url(../media/themes/Cat.png)"); theme="dark";};
+        break;
+        case "citylights": {root.style.setProperty('--background-content', "url(../media/themes/CityLights.png)"); theme="dark";};
+        break;
+        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.png)"); theme="dark";};
+        break;
+        case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.png)"); theme="dark";};
+        break;
+        case "hockey": {root.style.setProperty('--background-content', "url(../media/themes/Hockey.png)"); theme="dark";};
+        break;
+        case "mountains": {root.style.setProperty('--background-content', "url(../media/themes/Mountains.png)"); theme="dark";};
+        break;
+        case "ricknmorty": {root.style.setProperty('--background-content', "url(../media/themes/RickNMorty.png)"); theme="dark";};
+        break;
+        case "roses": {root.style.setProperty('--background-content', "url(../media/themes/Roses.png)"); theme="dark";};
+        break;
+        case "russia": {root.style.setProperty('--background-content', "url(../media/themes/Russia.png)"); theme="dark";};
+        break;
+        case "stalker": {root.style.setProperty('--background-content', "url(../media/themes/Stalker.png)"); theme="dark";};
+        break;
+        case "starwars": {root.style.setProperty('--background-content', "url(../media/themes/StarWars.png)"); theme="dark";};
+        break;
+        case "vk": {root.style.setProperty('--background-content', "url(../media/themes/VK.png)"); theme="dark";};
+        break;
+        case "warface": {root.style.setProperty('--background-content', "url(../media/themes/Warface.png)"); theme="dark";};
+        break;
     }
     if (button) {
         if (button.classList.contains("selected")) { return }
@@ -345,9 +371,17 @@ function getDisplayDate(Value) {
     compDate = new Date(Value) // month - 1 because January == 0
     diff = today.getTime() - compDate.getTime() // get the difference between today(at 00:00:00) and the date
     if (compDate.getTime() == today.getTime()) {
-        return "Сегодня, в " + compDate.getHours() + ":" + compDate.getMinutes();
+        if (lang_current == "ru") {
+            return "Сегодня, в " + compDate.getHours() + ":" + compDate.getMinutes();
+        } else {
+            return "Today, at " + compDate.getHours() + ":" + compDate.getMinutes();
+        }
     } else if (diff <= (24 * 60 * 60 *1000)) {
-        return "Вчера, в " + compDate.getHours() + ":" + compDate.getMinutes();
+        if (lang_current == "ru") {
+            return "Вчера, в " + compDate.getHours() + ":" + compDate.getMinutes();
+        } else {
+            return "Yesterdat, at " + compDate.getHours() + ":" + compDate.getMinutes();
+        }
     } else { 
         var formated = compDate.toDateString().split(" ")
         var Weekday = formated[0]
@@ -360,7 +394,9 @@ function getDisplayDate(Value) {
             Extra = ", " + Year
         }
         var String = Day+" "+Month+Extra
-        String = String.replace("Jan","января").replace("Feb","Февраля").replace("Mar","Марта").replace("Apr","Апреля").replace("May","Мая").replace("Jun","Июня").replace("Jul","Июля").replace("Aug","Августа").replace("Sep","Сентября").replace("Oct","Октября").replace("Nov","Ноября").replace("Dec","Декабря")
+        if (lang_current == "ru") {
+            String = String.replace("Jan","января").replace("Feb","Февраля").replace("Mar","Марта").replace("Apr","Апреля").replace("May","Мая").replace("Jun","Июня").replace("Jul","Июля").replace("Aug","Августа").replace("Sep","Сентября").replace("Oct","Октября").replace("Nov","Ноября").replace("Dec","Декабря")
+        }
         return String // or format it what ever way you want
     }
 }
@@ -375,7 +411,11 @@ function renderEmail(email_date){
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             viewer.innerHTML = Inner
-            setTitle("Почта Mail.ru")
+            if (lang_current == "ru") {
+                setTitle("Почта Mail.ru")
+            } else {
+                setTitle("Mail.ru")
+            }
             const response = JSON.parse(http.response)[0]
             const title = document.querySelector(".title")
             const flag_text = document.querySelector(".flag")
@@ -413,20 +453,34 @@ function renderEmail(email_date){
             response.to.forEach((person) => {
                 recipientsList.push(person.name+" "+person.surname)
             })
+            let recipient_text = "получателей"
+            if (lang_current !== "ru") {
+                recipient_text = "recipients"
+            }
             if (response.to.length > 4) {
-                recipients.innerHTML = response.to.length + " получателей: " + recipientsList.join(", ")
+                recipients.innerHTML = response.to.length + " "+recipient_text+": " + recipientsList.join(", ")
             } else if (response.to.length > 1) {
-                recipients.innerHTML = response.to.length + " получателя: " + recipientsList.join(", ")
+                recipient_text = "получателей"
+                if (lang_current !== "ru") {
+                    recipient_text = "recipients"
+                }
+                recipients.innerHTML = response.to.length + " "+recipient_text+": " + recipientsList.join(", ")
             } else {
-                recipients.innerHTML = "Получатель: "+recipientsList.join("")
+                recipient_text = "получателей"
+                if (lang_current !== "ru") {
+                    recipient_text = "Recipient"
+                }
+                recipients.innerHTML = recipient_text+": "+recipientsList.join("")
             }
             media.innerHTML = ""
             if (response.doc){
                 var image = response.doc.img
                 if (image){
                     var files_prefix = "1 файл"
+                    if (lang_current !== "ru") {
+                        files_prefix = "1 file"
+                    }
                     if (typeof(image) == "string") {
-                        
                         const downloadContainer = createElem("div",media)
                         downloadContainer.setAttribute("class","container")
                         const imageElement = createElem("img",downloadContainer)
@@ -435,7 +489,7 @@ function renderEmail(email_date){
                         const downloadOverlay = createElem("a",downloadContainer)
                         downloadOverlay.setAttribute("class","overlay")
                         downloadOverlay.setAttribute("href",image)
-                        downloadOverlay.setAttribute("download","image.png")
+                        downloadOverlay.setAttribute("download","file.png")
                         const downloadIcon = createElem("img",downloadOverlay)
                         downloadIcon.setAttribute("src","media/Download_Icon.png")
                         const overlayGradient = createElem("img",downloadOverlay)
@@ -443,26 +497,47 @@ function renderEmail(email_date){
                         overlayGradient.setAttribute("class","gradient")
                         const downloadText = createElem("p",downloadOverlay)
                         downloadText.innerHTML = "Скачать"
+                        if (lang_current !== "ru") {
+                            downloadText.innerHTML = "Download"
+                        }
                     } else {
                         if (image.length > 4) {
                             files_prefix = image.length+" файлов"
+                            if (lang_current !== "ru") {
+                                files_prefix = image.length+" files"
+                            }
                         } else {
                             files_prefix = image.length+" файла"
+                            if (lang_current !== "ru") {
+                                files_prefix = image.length+" files"
+                            }
                         }
                         image.forEach((img_data) => {
-                            const downloadOverlay = createElem("a",media)
+                            const downloadContainer = createElem("div",media)
+                            downloadContainer.setAttribute("class","container")
+                            const imageElement = createElem("img",downloadContainer)
+                            imageElement.setAttribute("src",img_data)
+                            imageElement.setAttribute("class","attachment")
+                            const downloadOverlay = createElem("a",downloadContainer)
                             downloadOverlay.setAttribute("class","overlay")
                             downloadOverlay.setAttribute("href",img_data)
-                            downloadOverlay.setAttribute("download","file")
+                            downloadOverlay.setAttribute("download","image.png")
                             const downloadIcon = createElem("img",downloadOverlay)
-                            downloadText.setAttribute("src","media/Download_Icon")
+                            downloadIcon.setAttribute("src","media/Download_Icon.png")
+                            const overlayGradient = createElem("img",downloadOverlay)
+                            overlayGradient.setAttribute("src","media/LightOverlay.png")
+                            overlayGradient.setAttribute("class","gradient")
                             const downloadText = createElem("p",downloadOverlay)
                             downloadText.innerHTML = "Скачать"
-                            const imageElement = createElem("img",downloadOverlay)
-                            imageElement.setAttribute("src",img_data)
+                            if (lang_current !== "ru") {
+                                downloadText.innerHTML = "Download"
+                            }
                         })
                     }
-                    download.innerHTML = files_prefix+"<a href='"+image+"'"+" download='file.png'"+">Скачать все файлы</a>"
+                    download.innerHTML = files_prefix+"<a href='"+image+"'"+" download='файл.png'"+">Скачать все файлы</a>"
+                    if (lang_current !== "ru") {
+                        download.innerHTML = files_prefix+"<a href='"+image+"'"+" download='file.png'"+">Download all files</a>"
+                    }
                 }
             } else {
                 download.innerHTML = ""
@@ -474,26 +549,32 @@ function renderEmail(email_date){
                 dot.setAttribute("style","opacity: 1")
             }
             if (response.flag == "Регистрации") {
+                flag_text.innerHTML = "Accounts"
                 flag_icon.setAttribute("src","media/Cat_Registration.png")
             }
             if (response.flag == "Штрафы и налоги") {
+                flag_text.innerHTML = "Fines and taxes"
                 flag_icon.setAttribute("src","media/Cat_Pay.png")
             }
             if (response.flag == "Заказы") {
+                flag_text.innerHTML = "Orders"
                 flag_icon.setAttribute("src","media/Cat_Orders.png")
             }
             if (response.flag == "Финансы") {
+                flag_text.innerHTML = "Finance"
                 flag_icon.setAttribute("src","media/Cat_Finance.png")
             }
             if (response.flag == "Путешествия") {
+                flag_text.innerHTML = "Travel"
                 flag_icon.setAttribute("src","media/Cat_Travel.png")
             }
             if (response.flag == "Билеты") {
+                flag_text.innerHTML = "Tickets"
                 flag_icon.setAttribute("src","media/Cat_Tickets.png")
             }
-            if (response.flag) {
+            if (response.flag && lang_current == "ru") {
                 flag_text.innerHTML = response.flag
-            } else {
+            } else if (response.flag == null) {
                 flag_text.innerHTML = ""
                 flag_icon.setAttribute("src","")
             }
@@ -520,7 +601,6 @@ function renderFolder (folder_name, first_scroll){
         if (this.readyState==4 && this.status==200){
             const response = JSON.parse(http.response)
             if (response.length < Step) {
-                console.log("Out of mail!")
                 window.removeEventListener("scroll", handleInfiniteScroll);
             }
             ItemsRendered += response.length
@@ -533,6 +613,11 @@ function renderFolder (folder_name, first_scroll){
 
 function setSettingsOption(option) {
     const selected = settings_content.querySelector("."+option)
+    if (option == "theme") {
+        settings.style.setProperty("height","75%")
+    } else {
+        settings.style.setProperty("height","45%")
+    }
     settings.querySelectorAll("div").forEach((loop_section) => {
         if (selected === loop_section) {
             loop_section.classList.add("selected")
@@ -542,7 +627,40 @@ function setSettingsOption(option) {
     });
 }
 
-// Language replacements:
+var setupLanguages = false
+
+var translations = {
+    en: {
+        options: '<img src="media/Settings.png">Options',
+        unread: '<img class="check_mark" src="media/Check_mark.png"><img style="width: 0.45em;" src="media/Blue_Circle.png">Unread',
+        flaged: '<img class="check_mark" src="media/Check_mark.png"><img style="width: 0.75em;" src="media/Bookmark.png">Flagged',
+        has_attachment: '<img class="check_mark" src="media/Check_mark.png"><img src="media/Attachment.png">With attachments',
+        compose: '<img src="media/Icon_0.png">Write a letter',
+        inbox: '<img src="media/Icon_1.png">Inbox',
+        important: '<img src="media/Icon_2.png">Important',
+        sent: '<img src="media/Icon_3.png">Sent',
+        draft: '<img src="media/Icon_4.png">Drafts',
+        archive: '<img src="media/Icon_5.png">Archive',
+        spam: '<img src="media/Icon_6.png">Spam',
+        trash: '<img src="media/Icon_7.png">Trash',
+        new_folder: '<img src="media/Plus.png">New folder',
+    },
+}
+
+function setupLanguageInfo(){
+    if (setupLanguages) { return }
+    setupLanguages = true
+    translations["ru"] = {}
+    all.forEach(element => {
+        const TID = element.getAttribute("tid")
+        if (TID !== null) {
+            if (TID.startsWith("_")){
+                translations["en"][TID] = TID.substring(1)
+            }
+            translations["ru"][TID] = element.innerHTML
+        }
+    });
+}
 
 function setLanguage(language) {
     if (lang_current == language) { return }
@@ -560,9 +678,17 @@ function setLanguage(language) {
         }   
     });
     lang_current = language
+    setupLanguageInfo()
+    const html = document.querySelector("html")
     // Setup done
-    
-    // Tomorow: use the old algorithm and reconnect event listeners.
+    html.setAttribute("lang",language)
+    const translationObject = translations[language]
+    all.forEach(element => {
+        const TID = element.getAttribute("tid")
+        if (TID !== null) {
+            element.innerHTML = translationObject[TID]
+        }
+    });
 }
 
 const handleInfiniteScroll = () => {
@@ -589,19 +715,42 @@ function setupCheckboxes(){
 }
 
 sidebar_buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (button.classList.contains("selected")) { return }
-        setTitle(button.getAttribute("folder") + " - Почта Mail.ru")
-        renderFolder(rusToLat(button.getAttribute("folder")),true)
-        window.addEventListener("scroll", handleInfiniteScroll);
-        sidebar_buttons.forEach((loop_button) => {
-            if (button === loop_button) {
-                loop_button.classList.add("selected")
-            } else if (button.className !== "white-button") {
-                loop_button.classList.remove("selected")
+    if (button.classList.contains("new-folder") == false) {
+        button.addEventListener('click', () => {
+            if (button.classList.contains("selected")) { return }
+            if (lang_current == "ru") {
+                setTitle(button.getAttribute("folder") + " - Почта Mail.ru")
+            } else {
+                const folderInRus = button.getAttribute("folder")
+                var tranlated = ""
+                if (folderInRus == "Входящие") {
+                    tranlated = "Inbox"
+                } else if (folderInRus == "Важное") {
+                    tranlated = "Important"
+                } else if (folderInRus == "Отправленные") {
+                    tranlated = "Sent"
+                } else if (folderInRus == "Черновики") {
+                    tranlated = "Drafts"
+                } else if (folderInRus == "Архив") {
+                    tranlated = "Archive"
+                } else if (folderInRus == "Спам") {
+                    tranlated = "Spam"
+                } else if (folderInRus == "Корзина") {
+                    tranlated = "Trash"
+                }
+                setTitle(tranlated + " - Mail.ru")
             }
+            renderFolder(rusToLat(button.getAttribute("folder")),true)
+            window.addEventListener("scroll", handleInfiniteScroll);
+            sidebar_buttons.forEach((loop_button) => {
+                if (button === loop_button) {
+                    loop_button.classList.add("selected")
+                } else if (button.className !== "white-button") {
+                    loop_button.classList.remove("selected")
+                }
+            });
         });
-    });
+    }
 });
 
 settings_button.addEventListener("click", () => {

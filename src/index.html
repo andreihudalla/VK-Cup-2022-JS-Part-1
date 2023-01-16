@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>Почта Mail.ru</title>
+        <title tid="_Mail.ru">Почта Mail.ru</title>
         <link rel="stylesheet" href="css/list.css">
         <link rel="stylesheet" href="css/viewer.css">
         <link rel="stylesheet" href="css/sidebar.css">
@@ -18,7 +18,7 @@
                 <div class="" id="corner-content_1"><img src="media/Mail_Full.png" id="Logo_Full"><img src="media/Mail_Cut.png" id="Logo_Cut"></div>
                 <div class="disabled" id="corner-content_2">
                     <img src="media/left-arrow.png"></img>
-                    <p>Вернуться</p>
+                    <p tid="_Return">Вернуться</p>
                 </div>
             </div>
             <div class="filters">
@@ -26,21 +26,21 @@
                     <img class="indicator hidden" data-filter="Unread" src="media/Blue_Circle.png">
                     <img class="indicator hidden" data-filter="Bookmark" src="media/Bookmark.png">
                     <img class="indicator hidden" data-filter="Attachment" src="media/Attachment.png">
-                    <p>Фильтр</p>
+                    <p tid="_Filter">Фильтр</p>
                     <img class="arrow" src="media/left-arrow.png">
                 </div>
                 <div class="filter-options">
-                    <h3 data-filter="Unread">
+                    <h3 tid="unread" data-filter="Unread">
                         <img class="check_mark" src="media/Check_mark.png">
                         <img style="width: 0.45em;" src="media/Blue_Circle.png">
                         Непрочитанные
                     </h3>
-                    <h3 data-filter="Bookmark">
+                    <h3 tid="flaged" data-filter="Bookmark">
                         <img class="check_mark" src="media/Check_mark.png">
                         <img style="width: 0.75em;" src="media/Bookmark.png">
                         С флажком
                     </h3>
-                    <h3 data-filter="Attachment">
+                    <h3 tid="has_attachment" data-filter="Attachment">
                         <img class="check_mark" src="media/Check_mark.png">
                         <img src="media/Attachment.png">
                         С вложениями
@@ -51,15 +51,16 @@
         </header>
         <main>
             <div id="sidebar">
-                <button class="white-button" type="button"><img src="media/Icon_0.png">Написать письмо</button>
+                <button tid="compose" class="white-button" type="button"><img src="media/Icon_0.png">Написать письмо</button>
                 <div id="folders">
-                    <button class="selected" type="button" folder="Входящие"><img src="media/Icon_1.png">Входящие</button>
-                    <button type="button" folder="Важное"><img src="media/Icon_2.png">Важное</button>
-                    <button type="button" folder="Отправленные"><img src="media/Icon_3.png">Отправленные</button>
-                    <button type="button" folder="Черновики"><img src="media/Icon_4.png">Черновики</button>
-                    <button type="button" folder="Архив"><img src="media/Icon_5.png">Архив</button>
-                    <button type="button" folder="Спам"><img src="media/Icon_6.png">Спам</button>
-                    <button type="button" folder="Корзина"><img src="media/Icon_7.png">Корзина</button>
+                    <button tid="inbox" class="selected" type="button" folder="Входящие"><img src="media/Icon_1.png">Входящие</button>
+                    <button tid="important" type="button" folder="Важное"><img src="media/Icon_2.png">Важное</button>
+                    <button tid="sent" type="button" folder="Отправленные"><img src="media/Icon_3.png">Отправленные</button>
+                    <button tid="draft" type="button" folder="Черновики"><img src="media/Icon_4.png">Черновики</button>
+                    <button tid="archive" type="button" folder="Архив"><img src="media/Icon_5.png">Архив</button>
+                    <button tid="spam" type="button" folder="Спам"><img src="media/Icon_6.png">Спам</button>
+                    <button tid="trash" type="button" folder="Корзина"><img src="media/Icon_7.png">Корзина</button>
+                    <button tid="new_folder" class="new-folder"><img src="media/Plus.png">Новая папка</button>
                 </div>
             </div>
             <div class="primary">
@@ -67,7 +68,7 @@
                 </div>
                 <div class="no-mail">
                     <img src="media/Empty_Dark.png">
-                    <h2>Писем нет</h2>
+                    <h2 tid="_Nothing in here...">Писем нет</h2>
                 </div>
                 <div id="viewer" style="display: none;">
                     <div class="topbar">
@@ -98,15 +99,15 @@
                 </div>
             </div>
         </main>
-        <button id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
+        <button tid="options" id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
         <div id="settings">
             <div class="options">
-                <button type="button" option="theme" class="selected">Внешний вид</button>
+                <button tid="_Appearance" type="button" option="theme" class="selected">Внешний вид</button>
                 <button id="lang_button" type="button" option="language">Язык: Русский<img src="media/flag_ru.png"></button>
             </div>
             <div class="content">
                 <div class="theme selected">
-                    <p>Настройки внешнего вида вашей почты и темы оформления</p>
+                    <p tid="_Customize the appearance and design theme of your email">Настройки внешнего вида вашей почты и темы оформления</p>
                     <div class="themes">
                         <div color="#4A352F" style="background: #4A352F" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
                         <div color="#424242" style="background: #424242" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
@@ -132,14 +133,63 @@
                             <div class="fill"><img src="media/Check_mark.png"></div>
                             <img src="media/Mail_Full_Light.png">
                         </div>
-                        <div theme="anime" style="background-color: white;" class="primary-theme">
+                        <!--IMG themes-->
+                        <div theme="stalker" style="background-color: white;" class="primary-theme">
                             <div class="fill"><img src="media/Check_mark.png"></div>
-                            <img class="demo" src="media/anime.jpg" alt="Anime">
+                            <img class="demo" src="media/themes/StalkerButton.png">
+                        </div>
+                        <div theme="starwars" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/StarWarsButton.png">
+                        </div>
+                        <div theme="warface" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/WarfaceButton.png">
+                        </div>
+                        <div theme="geometry" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/GeometryButton.png">
+                        </div>
+                        <div theme="hockey" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/HockeyButton.png">
+                        </div>
+                        <div theme="ricknmorty" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/RickNMortyButton.png">
+                        </div>
+                        <div theme="hills" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/HillsButton.png">
+                        </div>
+                        <div theme="cat" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/CatButton.png">
+                        </div>
+                        <div theme="citylights" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/CityLightsButton.png">
+                        </div>
+                        <div theme="mountains" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/MountainsButton.png">
+                        </div>
+                        <div theme="roses" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/RosesButton.png">
+                        </div>
+                        <div theme="russia" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/RussiaButton.png">
+                        </div>
+                        <div theme="vk" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/VKButton.png">
                         </div>
                     </div>
                 </div>
                 <div class="language">
-                    <p>Изменить язык</p>
+                    <p tid="_Change language">Изменить язык</p>
                     <div class="languages">
                         <p language="ru"><img src="media/circle_checked.png" class="check"><img src="media/flag_ru.png" class="flag">Русский</p>
                         <p language="en"><img src="media/circle_empty.png" class="check"><img src="media/flag_en.png" class="flag">English</p>

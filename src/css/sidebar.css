@@ -53,6 +53,19 @@
     user-select: none;
 }
 
+#folders > button.new-folder {
+    opacity: 0.5;
+    margin-top: 1.5em;
+    filter: var(--darken-filter);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#folders > button.new-folder:hover {
+    background: none;
+    transform: scale(1.01) translateX(0.3em);
+}
+
 #folders > button > img {
     height: 0.8em;
     margin-right: 0.75em;
