@@ -200,6 +200,7 @@ function setTheme(theme) {
             theme = "light"
         }
     }
+    main.classList.add("image")
     switch (theme){
         case "cat": {root.style.setProperty('--background-content', "url(../media/themes/Cat.png)"); theme="dark";};
         break;
@@ -227,6 +228,7 @@ function setTheme(theme) {
         break;
         case "warface": {root.style.setProperty('--background-content', "url(../media/themes/Warface.png)"); theme="dark";};
         break;
+        default: main.classList.remove("image");
     }
     if (button) {
         if (button.classList.contains("selected")) { return }

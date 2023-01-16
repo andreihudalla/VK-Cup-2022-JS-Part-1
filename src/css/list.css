@@ -13,7 +13,6 @@
     --line-color: rgb(15, 15, 15);
     --nomail_image: url(../media/Empty_Dark.png);
     --header-blur: none;
-    --nomail-filter: brightness(1);
 }
 
 [data-theme="light"] {
@@ -30,22 +29,20 @@
     --darken-filter: brightness(0.2);
     --line-color: rgb(211, 211, 211);
     --nomail_image: url(../media/Empty_Light.png);
-    --nomail-filter: brightness(1);
 }
 
 [data-custom-theme=true] {
     --nomail_size: 5em;
     --nomail_image: url(../media/Empty_Other.png);
-    --nomail-filter: brightness(0.2);
     --header-filter: blur(10em);
     --header-color: rgba(0,0,0,0);
     --bottom-border: rgba(0, 0, 0, 0);
+    --nomail-filter: brightness(1);
 }
 
 [data-custom-theme=false] {
     --nomail_size: 15em;
     --header-color: var(--primary-color);
-    --nomail-filter: brightness(1);
 }
 
 body,html {
@@ -158,10 +155,13 @@ main {
     display: flex;
     width: 100%;
     transition: all 0.4s;
-    backdrop-filter: brightness(0.5) saturate(95%);
     border-radius: 0;
     min-height: 100%;
     z-index: 1;
+}
+
+main.image {
+    backdrop-filter: brightness(0.5) saturate(95%);
 }
 
 main.minimized {
