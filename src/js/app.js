@@ -202,29 +202,15 @@ function setTheme(theme) {
     }
     main.classList.add("image")
     switch (theme){
-        case "cat": {root.style.setProperty('--background-content', "url(../media/themes/Cat.png)"); theme="dark";};
-        break;
-        case "citylights": {root.style.setProperty('--background-content', "url(../media/themes/CityLights.png)"); theme="dark";};
-        break;
         case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.png)"); theme="dark";};
         break;
         case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.png)"); theme="dark";};
         break;
-        case "hockey": {root.style.setProperty('--background-content', "url(../media/themes/Hockey.png)"); theme="dark";};
-        break;
         case "mountains": {root.style.setProperty('--background-content', "url(../media/themes/Mountains.png)"); theme="dark";};
-        break;
-        case "ricknmorty": {root.style.setProperty('--background-content', "url(../media/themes/RickNMorty.png)"); theme="dark";};
         break;
         case "roses": {root.style.setProperty('--background-content', "url(../media/themes/Roses.png)"); theme="dark";};
         break;
-        case "russia": {root.style.setProperty('--background-content', "url(../media/themes/Russia.png)"); theme="dark";};
-        break;
-        case "stalker": {root.style.setProperty('--background-content', "url(../media/themes/Stalker.png)"); theme="dark";};
-        break;
         case "starwars": {root.style.setProperty('--background-content', "url(../media/themes/StarWars.png)"); theme="dark";};
-        break;
-        case "vk": {root.style.setProperty('--background-content', "url(../media/themes/VK.png)"); theme="dark";};
         break;
         case "warface": {root.style.setProperty('--background-content', "url(../media/themes/Warface.png)"); theme="dark";};
         break;
