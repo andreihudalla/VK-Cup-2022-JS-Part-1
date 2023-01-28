@@ -1,7 +1,9 @@
 const http = require("http")
 const fs = require("fs")
 const path = require("path")
+const { stringify } = require("querystring")
 const port = 3000
+const email_folder_cache = {}
 
 function rusToLat(str) {
     if (str) {
@@ -32,61 +34,61 @@ function rusToLat(str) {
     }
 }
 
+function setupListCache() {
+    console.log('\x1b[33m',"Setting up cache...")
+    var DB = null
+    DB = JSON.parse(fs.readFileSync("src/db.json"))
+    if (DB !== null) {
+        DB.forEach((element) => {
+            const folder = rusToLat(element.folder)
+            if (email_folder_cache[folder] == null) {
+                email_folder_cache[folder] = []
+            }
+            email_folder_cache[folder].push(element)
+        })
+        console.log('\x1b[32m',"Cache ready to go!")
+    } else {
+        console.log('\x1b[31m',"Could not find db.json to set up mail cache")
+    }
+}
+
 function sendRes(url, contentType, response){
     if (contentType === "API_REQUEST"){
-        let file = __dirname + "/db.json"
-        var DB = null
-        fs.readFile(file,(error,content) => {
-            if (error) {
-                response.writeHead(404)
-                console.log('\x1b[31m',"Could not find db.json...")
-                response.end()
-            } else {
-                DB = JSON.parse(content)
-                var ResponseArray = DB
-                var RequestType = url.split("/")[2]
-                var Argument = url.split("/")[3]
+        console.log('\x1b[35m',"Recieved API request: " + url)
+        var ResponseArray = []
+        var RequestType = url.split("/")[2]
+        var Argument = url.split("/")[3]
+        switch (RequestType){
+            // Getting emails in certain folders with small data
+            case "get_folder_emails": {
                 var Amount = url.split("/")[4]
                 var RemoveFirst = url.split("/")[5]
-                console.log('\x1b[35m',"Recieved API request: " + url)
-                if (RemoveFirst == null || Amount == null) {RemoveFirst = 0; Amount = 20}
-                switch (RequestType){
-                    // Getting emails in certain folders with small data
-                    case "get_folder_emails": {
-                        ResponseArray = []
-                        var Done = false
-                        DB.forEach(element => {
-                            if (Done) {return}
-                            if (rusToLat(element.folder) == Argument) {
-                                if (RemoveFirst <= 0) {
-                                    ResponseArray.push(element)
-                                } else {
-                                    RemoveFirst -= 1
-                                }
-                            }
-                            if (ResponseArray.length >= Amount) {Done = true}
-                        });
-                        response.writeHead(200, {'Content-Type' : "application/json"})
-                        response.write(JSON.stringify(ResponseArray))
-                        response.end()
-                        return
-                    }
-                    // Getting full email file for opening
-                    case "get_email_by_date": {
-                        ResponseArray = []
-                        DB.forEach(element => {
-                            if (element.date === Argument) {
-                                ResponseArray.push(element)
-                            }
-                        });
-                        response.writeHead(200, {'Content-Type' : "application/json"})
-                        response.write(JSON.stringify(ResponseArray))
-                        response.end()
-                        return
+                var ResponseArray = []
+                if (email_folder_cache[Argument]) {
+                    ResponseArray = email_folder_cache[Argument].slice(parseInt(RemoveFirst), parseInt(RemoveFirst) + parseInt(Amount))
+                }
+                response.writeHead(200, {'Content-Type' : "application/json"})
+                response.write(JSON.stringify(ResponseArray))
+                response.end()
+                return
+            }
+            // Getting full email file for opening
+            case "get_email_by_date": {
+                var folder = url.split("/")[4]
+                var ResponseArray = []
+                ResponseArray = email_folder_cache[folder]
+                for (let i = 0; i < ResponseArray.length; i++) {
+                    if (ResponseArray[i].date == Argument) {
+                        ResponseArray = [ResponseArray[i]]
+                        break
                     }
                 }
+                response.writeHead(200, {'Content-Type' : "application/json"})
+                response.write(JSON.stringify(ResponseArray))
+                response.end()
+                return
             }
-        })
+        }
     } else {
         let file = path.join(__dirname+"/",url)
         fs.readFile(file,(error,content) => {
@@ -131,6 +133,7 @@ server.listen(port, function(error){
     if (error) {
         console.log('\x1b[31m',"Something went wrong!", error)
     } else{
-        console.log('\x1b[0m',"Server is listening on port "+ port)
+        setTimeout(setupListCache,100)
+        console.log('\x1b[32m',"Server is listening on port "+ port)
     }
 })

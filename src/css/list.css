@@ -163,13 +163,33 @@ main {
 }
 
 main.image {
-    /*backdrop-filter: brightness(0.5) saturate(95%);*/
+    backdrop-filter: brightness(0.5) saturate(95%);
 }
 
 main.minimized {
     display: flex;
     transform: scale(0.7) translate(0,-18%);
     border-radius: 1em;
+}
+
+.more-mail {
+    width: fit-content;
+    height: 2.5em;
+    background-color: var(--primary-text-color);
+    color: var(--background-content);
+    border-radius: 0.75em;
+    margin-left: calc(50% - 2.25em);
+    margin-top: 1em;
+    border: none;
+    transition: opacity 0.3s;
+}
+
+.more-mail:hover {
+    opacity: 0.5;
+}
+
+.more-mail.hidden {
+    display: none;
 }
 
 .primary {

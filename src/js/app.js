@@ -18,12 +18,13 @@ const settings_option_buttons = document.querySelectorAll("#settings .options > 
 const settings_content = document.querySelector("#settings .content")
 const theme_buttons = document.querySelectorAll(".themes > div")
 const language_labels = document.querySelectorAll(".languages > p")
+const more_mail_btn = document.querySelector(".more-mail")
 const all = document.querySelectorAll("*")
 
 var lang_current = null
 var last_folder = null
 var ItemsRendered = 0
-const Step = 20
+const Step = 15
 var using_filters = []
 
 function addClass(element,setClass){
@@ -115,13 +116,21 @@ function apply_filters(animate) {
         if (hide !== true) {
             ShownCounter += 1
         }
-        setTimeout(() => {
+        if (animate) {
+            setTimeout(() => {
+                if (hide == true) {
+                    email_element.classList.add("hidden")
+                } else {
+                    email_element.classList.remove("hidden")
+                }
+            }, 10);
+        } else {
             if (hide == true) {
                 email_element.classList.add("hidden")
             } else {
                 email_element.classList.remove("hidden")
             }
-        }, 10);
+        }
     })
     indicators.forEach((indicator) => {
         if (using_filters.find((e) => e == indicator.dataset.filter)) {
@@ -132,8 +141,10 @@ function apply_filters(animate) {
     })
     if (ShownCounter > 0) {
         nomail.classList.add("hidden")
+        //more_mail_btn.classList.remove("hidden")
     } else {
         nomail.classList.remove("hidden")
+        more_mail_btn.classList.add("hidden")
     }
 }
 
@@ -202,7 +213,7 @@ function setTheme(theme) {
     }
     main.classList.add("image")
     switch (theme){
-        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.png)"); theme="dark";};
+        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.png)"); theme="light";};
         break;
         case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.png)"); theme="dark";};
         break;
@@ -347,7 +358,7 @@ function renderListItem(data){
     // Date
     var date = createElem("h4",base,"listed-date")
     date.innerHTML = getDisplayDate(data.date).replace("/^0+/", '');
-    main.addEventListener("click", () => renderEmail(data.date))
+    main.addEventListener("click", () => renderEmail(data.date,data.folder))
 }
 
 function getDisplayDate(Value) {
@@ -389,12 +400,12 @@ function getDisplayDate(Value) {
     }
 }
 
-function renderEmail(email_date){
+function renderEmail(email_date,email_folder){
     const Inner = viewer.innerHTML
     viewer.innerHTML = ""
     setBackButtonEnabled(true)
     viewer.classList.add("shimmer")
-    let api_request = http.open("GET","/api/get_email_by_date/"+email_date)
+    let api_request = http.open("GET","/api/get_email_by_date/"+email_date+"/"+rusToLat(email_folder))
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
@@ -571,29 +582,32 @@ function renderEmail(email_date){
     }
 }
 
-var RequestsMade = []
+var LastRequestTick = 0
 
 function renderFolder (folder_name, first_scroll){
     if (first_scroll == true) {
         ItemsRendered = 0
         setBackButtonEnabled(false)
         last_folder = folder_name
-        RequestsMade = []
+        LastRequestTick = 0
         list.innerHTML = ""
+    } else {
+        more_mail_btn.disabled = true
+        setTimeout(() => { more_mail_btn.disabled = false }, 800);
     }
     let api_request = "/api/get_folder_emails/"+folder_name+"/"+Step+"/"+ItemsRendered
     let request = http.open("GET",api_request)
-    RequestsMade[api_request] = true
     http.send()
     http.onreadystatechange=function(){
         if (this.readyState==4 && this.status==200){
             const response = JSON.parse(http.response)
-            if (response.length < Step) {
-                window.removeEventListener("scroll", handleInfiniteScroll);
-            }
             ItemsRendered += response.length
             response.forEach(element => renderListItem(element))
-            apply_filters(true)
+            apply_filters(first_scroll)
+            if (response.length < Step) {
+                window.removeEventListener("scroll", handleInfiniteScroll);
+                //more_mail_btn.classList.add("hidden")
+            }
             setupCheckboxes()
         }
     }
@@ -679,11 +693,19 @@ function setLanguage(language) {
     });
 }
 
-const handleInfiniteScroll = () => {
-    const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120)
-    if (endOfPage) {
+const handleInfiniteScroll = (nocheck) => {
+    if (nocheck == true) {
+        LastRequestTick = new Date().getTime()
         const api_request = "/api/get_folder_emails/"+last_folder+"/"+Step+"/"+ItemsRendered
-        if (RequestsMade[api_request]) {return} else {
+        renderFolder(last_folder)
+        return
+    }
+    const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100)
+    if (endOfPage) {
+        const tick = new Date().getTime()
+        if (tick - LastRequestTick > 1000) {
+            LastRequestTick = new Date().getTime()
+            const api_request = "/api/get_folder_emails/"+last_folder+"/"+Step+"/"+ItemsRendered
             renderFolder(last_folder)
         }
     }
@@ -740,6 +762,8 @@ sidebar_buttons.forEach((button) => {
         });
     }
 });
+
+//more_mail_btn.addEventListener("click", () => { handleInfiniteScroll(true) });
 
 settings_button.addEventListener("click", () => {
     if (settings.classList.contains("enabled")) {
