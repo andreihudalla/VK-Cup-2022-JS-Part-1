@@ -215,17 +215,17 @@ function setTheme(theme) {
     }
     main.classList.add("image")
     switch (theme){
-        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.png)"); theme="light";};
+        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.webp)"); theme="light";};
         break;
-        case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.png)"); theme="dark";};
+        case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.webp)"); theme="dark";};
         break;
-        case "mountains": {root.style.setProperty('--background-content', "url(../media/themes/Mountains.png)"); theme="dark";};
+        case "mountains": {root.style.setProperty('--background-content', "url(../media/themes/Mountains.webp)"); theme="dark";};
         break;
-        case "roses": {root.style.setProperty('--background-content', "url(../media/themes/Roses.png)"); theme="dark";};
+        case "roses": {root.style.setProperty('--background-content', "url(../media/themes/Roses.webp)"); theme="dark";};
         break;
-        case "starwars": {root.style.setProperty('--background-content', "url(../media/themes/StarWars.png)"); theme="dark";};
+        case "starwars": {root.style.setProperty('--background-content', "url(../media/themes/StarWars.webp)"); theme="dark";};
         break;
-        case "warface": {root.style.setProperty('--background-content', "url(../media/themes/Warface.png)"); theme="dark";};
+        case "warface": {root.style.setProperty('--background-content', "url(../media/themes/Warface.webp)"); theme="dark";};
         break;
         default: main.classList.remove("image");
     }
