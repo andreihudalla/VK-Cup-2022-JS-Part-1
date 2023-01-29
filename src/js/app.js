@@ -127,6 +127,7 @@ function apply_filters(animate) {
         } else {
             if (hide == true) {
                 email_element.classList.add("hidden")
+                email_element.classList.remove("checked")
             } else {
                 email_element.classList.remove("hidden")
             }
@@ -171,6 +172,7 @@ document.addEventListener('click', function(event) {
 
 filter_options_all.forEach((button) => {
     button.addEventListener('click', () => {
+        if (filter_button.classList.contains("enabled") == false) { return }
         const Check = button.querySelector(".check_mark")
         const FilterName = button.dataset.filter
         if (Check) {

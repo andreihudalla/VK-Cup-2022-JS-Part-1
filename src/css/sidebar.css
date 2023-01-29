@@ -55,7 +55,7 @@
 
 #folders > button.new-folder {
     opacity: 0.5;
-    margin-top: 1.5em;
+    margin-top: 1em;
     filter: var(--darken-filter);
     cursor: pointer;
     transition: all 0.2s;

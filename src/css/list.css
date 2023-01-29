@@ -89,6 +89,7 @@ body,html {
     justify-content: space-between;
     backdrop-filter: var(--header-filter) brightness(0.6);
     z-index: 999;
+    position: relative;
 }
 
 .corner-content {
@@ -190,6 +191,15 @@ main.minimized {
 
 .more-mail.hidden {
     display: none;
+}
+
+hr {
+    margin: 0;
+    width: 100%;
+    border: none;
+    margin-top: 0.4em;
+    border-bottom: solid 1px var(--grey-text);
+    opacity: 0.3;
 }
 
 .primary {
@@ -542,6 +552,10 @@ main.minimized {
     z-index: 101 !important;
 }
 
+.filter-options.enabled > h3 {
+    cursor: pointer;
+}
+
 .filter-options > h3 {
     color: var(--primary-text-color);
     font-family: "Arial";
@@ -551,7 +565,6 @@ main.minimized {
     font-size: 0.75em;
     line-height: 3em;
     transition: background-color 0.3s;
-    cursor: pointer;
     display: flex;
     align-items: center;
     margin: 0;
