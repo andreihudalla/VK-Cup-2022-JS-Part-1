@@ -418,7 +418,7 @@ function renderEmail(email_date,email_folder){
                 setTitle("Mail.ru")
             }
             const response = JSON.parse(http.response)[0]
-            const title = document.querySelector(".title")
+            const title = document.querySelector("title")
             const flag_text = document.querySelector(".flag")
             const flag_icon = document.querySelector(".flag_icon")
             const dot = document.querySelector(".dot")
@@ -594,6 +594,7 @@ function renderFolder (folder_name, first_scroll){
         LastRequestTick = 0
         list.innerHTML = ""
     } else {
+        if (list.getAttribute("style") == "display: none") { return }
         more_mail_btn.disabled = true
         setTimeout(() => { more_mail_btn.disabled = false }, 800);
     }

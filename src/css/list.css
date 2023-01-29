@@ -169,7 +169,7 @@ main.image {
 
 main.minimized {
     display: flex;
-    transform: scale(0.7) translate(0,-18%);
+    transform: scale(0.7) translate(0,5em);
     border-radius: 1em;
 }
 
