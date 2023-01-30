@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/viewer.css">
         <link rel="stylesheet" href="css/sidebar.css">
         <link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/compose.css">
         <link rel="stylesheet" href="css/shimmer_loading.css">
         <link rel="shortcut icon" href="media/Mail_Cut.png" type="image/x-icon">
         <meta charset="UTF-8">
@@ -71,7 +72,6 @@
                     <img src="media/Empty_Dark.png">
                     <h2 tid="_Nothing in here...">Писем нет</h2>
                 </div>
-                <button tid="_Load more" class="more-mail hidden">Загрузить ещё</button>
                 <div id="viewer" style="display: none;">
                     <div class="topbar">
                         <h2 class="title"></h2>
@@ -97,10 +97,34 @@
                     </div>
                     <div class="media"></div>
                     <p class="download"></p>
-                    <p class="content"></p>
+                    <p class="content hidden"></p>
                 </div>
-                <div class="compose">
-                    
+            </div>
+            <div class="hidden compose">
+                <div class="top-section">
+                    <img src="media/user.png">
+                    <div class="info">
+                        <div class="info-section">
+                            <h4 tid="_Recipient:">Кому:</h4>
+                            <section class="emailEditor__container">
+                                <div class="emailEditor__component">
+                                    <div id="emails-input"></div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="info-section">
+                            <h4 tid="_Subject:">Тема:</h4>
+                            <input type="text">
+                        </div>
+                        <div class="info-section borderless">
+                            <button id="uploadButton" style="position: relative;">
+                                <img src="media/Attachment.png">
+                                <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;"/>
+                                Прикрепить файл
+                            </button>
+                        </div>
+                        <div class="files-uploaded">    </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -176,5 +200,6 @@
             <button id="close-settings"><img src="media/close.png"></button>
         </div>
     </body>
+    <script src="js/addressList.js"></script>
     <script src="js/app.js"></script>
 </html>

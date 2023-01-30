@@ -129,11 +129,14 @@ const server = http.createServer(function(request,response){
     }
 })
 
-server.listen(port, function(error){
-    if (error) {
-        console.log('\x1b[31m',"Something went wrong!", error)
-    } else{
-        setTimeout(setupListCache,100)
-        console.log('\x1b[32m',"Server is listening on port "+ port)
-    }
-})
+
+setTimeout(() => {
+    setupListCache()
+    server.listen(port, function(error){
+        if (error) {
+            console.log('\x1b[31m',"Something went wrong!", error)
+        } else{
+            console.log('\x1b[32m',"Server is listening on port "+ port)
+        }
+    })
+},100)

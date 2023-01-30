@@ -6,6 +6,8 @@ const list = document.querySelector("#list")
 const viewer = document.querySelector("#viewer")
 const http = new XMLHttpRequest()
 const nomail = document.querySelector(".no-mail")
+const compose = document.querySelector(".compose")
+const compose_button = document.querySelector(".white-button")
 const filters = document.querySelector(".filters")
 const filter_options = document.querySelector(".filter-options")
 const filter_button = document.querySelector(".filter-button")
@@ -18,7 +20,8 @@ const settings_option_buttons = document.querySelectorAll("#settings .options > 
 const settings_content = document.querySelector("#settings .content")
 const theme_buttons = document.querySelectorAll(".themes > div")
 const language_labels = document.querySelectorAll(".languages > p")
-const more_mail_btn = document.querySelector(".more-mail")
+const upload_element = document.getElementById("uploadElement")
+const upload_button = document.getElementById("uploadButton")
 const all = document.querySelectorAll("*")
 
 var lang_current = null
@@ -69,7 +72,6 @@ function brightnessByColor(color) {
     if (typeof r != "undefined") return ((r*299)+(g*587)+(b*114))/1000;
 }
 
-// Cyrilic to Latin alphabet converter
 function rusToLat(str) {
     let ru = {
       'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
@@ -142,10 +144,8 @@ function apply_filters(animate) {
     })
     if (ShownCounter > 0) {
         nomail.classList.add("hidden")
-        //more_mail_btn.classList.remove("hidden")
     } else {
         nomail.classList.remove("hidden")
-        more_mail_btn.classList.add("hidden")
     }
 }
 
@@ -167,6 +167,9 @@ document.addEventListener('click', function(event) {
     if (!settings.contains(event.target)&& !settings_button.contains(event.target)){
         settings.classList.remove("enabled")
         main.classList.remove("minimized")
+    }
+    if (!compose.contains(event.target)&& !compose_button.contains(event.target)){
+        compose.classList.add("hidden")
     }
 });
 
@@ -289,13 +292,11 @@ function setBackButtonEnabled(value){
 }
 
 function renderListItem(data){
-    // Default stuff
     var base = createElem("div",list)
     if (data.read == false) {
         addClass(base,"unread")
     }
     var dot = createElem("div",base,"unread-dot")
-    // Checkbox and avatar
     var person = data.author
     var avatar = createElem("img",base,"avatar")
     if (person.avatar){
@@ -306,7 +307,6 @@ function renderListItem(data){
     var checkbox = createElem("div",base,"checkbox")
     var checkbox_image = createElem("img",checkbox)
     checkbox_image.setAttribute("src","media/Check_mark.png")
-    // Main content
     var main = createElem("div",base,"main-part")
     var section = createElem("div",main,"name-and-special")
     var name = createElem("h3",section)
@@ -329,7 +329,6 @@ function renderListItem(data){
     title.innerHTML = data.title
     var content = createElem("h3",contents,"listed-content")
     content.innerHTML = data.text
-    // Categories
     var categories = createElem("div",base,"categories")
     if (data.doc) {
         var Icon = createElem("img",categories,"doc")
@@ -357,7 +356,6 @@ function renderListItem(data){
             Icon.setAttribute("src","media/Cat_Tickets.png")
         }
     }
-    // Date
     var date = createElem("h4",base,"listed-date")
     date.innerHTML = getDisplayDate(data.date).replace("/^0+/", '');
     main.addEventListener("click", () => renderEmail(data.date,data.folder))
@@ -369,8 +367,8 @@ function getDisplayDate(Value) {
     today.setMinutes(0)
     today.setSeconds(0)
     today.setMilliseconds(0)
-    compDate = new Date(Value) // month - 1 because January == 0
-    diff = today.getTime() - compDate.getTime() // get the difference between today(at 00:00:00) and the date
+    compDate = new Date(Value)
+    diff = today.getTime() - compDate.getTime()
     if (compDate.getTime() == today.getTime()) {
         if (lang_current == "ru") {
             return "Сегодня, в " + compDate.getHours() + ":" + compDate.getMinutes();
@@ -398,7 +396,7 @@ function getDisplayDate(Value) {
         if (lang_current == "ru") {
             String = String.replace("Jan","января").replace("Feb","Февраля").replace("Mar","Марта").replace("Apr","Апреля").replace("May","Мая").replace("Jun","Июня").replace("Jul","Июля").replace("Aug","Августа").replace("Sep","Сентября").replace("Oct","Октября").replace("Nov","Ноября").replace("Dec","Декабря")
         }
-        return String // or format it what ever way you want
+        return String
     }
 }
 
@@ -595,8 +593,6 @@ function renderFolder (folder_name, first_scroll){
         list.innerHTML = ""
     } else {
         if (list.getAttribute("style") == "display: none") { return }
-        more_mail_btn.disabled = true
-        setTimeout(() => { more_mail_btn.disabled = false }, 800);
     }
     let api_request = "/api/get_folder_emails/"+folder_name+"/"+Step+"/"+ItemsRendered
     let request = http.open("GET",api_request)
@@ -609,7 +605,6 @@ function renderFolder (folder_name, first_scroll){
             apply_filters(first_scroll)
             if (response.length < Step) {
                 window.removeEventListener("scroll", handleInfiniteScroll);
-                //more_mail_btn.classList.add("hidden")
             }
             setupCheckboxes()
         }
@@ -685,7 +680,6 @@ function setLanguage(language) {
     lang_current = language
     setupLanguageInfo()
     const html = document.querySelector("html")
-    // Setup done
     html.setAttribute("lang",language)
     const translationObject = translations[language]
     all.forEach(element => {
@@ -766,8 +760,6 @@ sidebar_buttons.forEach((button) => {
     }
 });
 
-//more_mail_btn.addEventListener("click", () => { handleInfiniteScroll(true) });
-
 settings_button.addEventListener("click", () => {
     if (settings.classList.contains("enabled")) {
         settings.classList.remove("enabled")
@@ -782,6 +774,12 @@ close_settings_button.addEventListener("click", () => {
     if (settings.classList.contains("enabled")) {
         settings.classList.remove("enabled")
         main.classList.remove("minimized")
+    }
+})
+
+compose_button.addEventListener("click", () => {
+    if (compose.classList.contains("hidden")) {
+        compose.classList.remove("hidden")
     }
 })
 
@@ -836,6 +834,20 @@ language_labels.forEach((label) => {
         });
     });
 });
+
+function handleFiles() {
+    const fileList = this.files;
+    for (let i = 0; i < fileList.length; i++) {
+        const element = fileList[i]
+        const source = URL.createObjectURL(element);
+        const fileName = element.name
+        const extention = fileName.split('.').pop()
+        
+    }
+}
+
+upload_element.addEventListener("change", handleFiles, false);
+upload_button.addEventListener("click",() => { upload_element.click() })
 
 document.addEventListener("DOMContentLoaded",() => {
     const last_used_theme = getCookie("theme")
