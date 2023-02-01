@@ -169,7 +169,7 @@ main.image {
 
 main.minimized {
     display: flex;
-    transform: scale(0.7) translate(0,10%);
+    transform: scale(0.7) translate(0,10vh);
     border-radius: 1em;
 }
 
@@ -220,21 +220,22 @@ hr {
     align-items: flex-start;
     padding: 0px;
     height: fit-content;
+    transition-property: background-color, border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius;
+    transition-duration: 0.3s, 0.3s, 0.3s, 0.3s, 0.3s;
 }
 
 #list > div {
     border-radius: 12px;
     height: 3em;
     width: 100%;
-    transition: background-color 0.3s;
     display: flex;
     justify-content: left;
     align-items: center;
     box-sizing: border-box;
     padding-right: 1.5em;
     cursor: pointer;
-    transition-property: opacity, height;
-    transition-duration: 0.2s, 0.3s;
+    transition-property: opacity, height, background-color;
+    transition-duration: 0.2s, 0.3s, 0.3s;
 }
 
 #list > div.top-connection {

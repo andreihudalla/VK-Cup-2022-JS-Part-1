@@ -1,9 +1,15 @@
 :root {
     --compose-background:#232324;
+    --theme_invert: white;
+    --button_hover: rgba(255,255,255,0.1);
+    --darken-filter: brightness(1);
 }
 
 [data-theme="light"] {
     --compose-background: white;
+    --theme_invert: #232324;
+    --button_hover: rgba(0, 0, 0, 0.1);
+    --darken-filter: brightness(0.2);
 }
 
 @keyframes compose-open {
@@ -39,10 +45,10 @@
 
 .compose {
     position: fixed;
-    left: 20%;
-    top: 7%;
+    left: 20vw;
+    top: 7vh;
     width: 60%;
-    height: 86%;
+    height: 86vh;
     z-index: 10000;
     background-color: var(--compose-background);
     border-radius: 1em;
@@ -52,6 +58,9 @@
     display: flex;
     flex-direction: column;
     animation: compose-open 0.2s forwards;
+    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .compose.hidden {
@@ -81,7 +90,7 @@
     flex-grow: 1;
     font-size: 1em;
     background: none;
-    color: white;
+    color: var(--theme_invert);
 }
   
 .emailsEditor__input::placeholder {
@@ -98,7 +107,7 @@
 }
   
 .emailsEditor__email {
-    color: #ffffff;
+    color: var(--theme_invert);
     margin: 0 8px 4px 0;
     padding: 0 10px;
     cursor: pointer;
@@ -121,6 +130,7 @@
 .emailsEditor__delete-button {
     margin-left: 1em;
     width: 0.7em;
+    filter: var(--darken-filter);
 }
 
 .emailsEditor__delete-button > img {
@@ -160,7 +170,7 @@
     border: none;
     background: none;
     outline: 0;
-    color: white;
+    color: var(--theme_invert);
     font-size: 1em;
     margin-left: 0.7em;
 }
@@ -168,7 +178,7 @@
 .info-section > h4 {
     margin: 1em;
     margin-top: 0.7em;
-    color: white;
+    color: var(--theme_invert);
     font-family: "Arial";
     line-height: 1.2em;
 }
@@ -184,7 +194,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--theme_invert);
     font-size: 1em;
     font-weight: 500;
 }
@@ -192,8 +202,73 @@
 .info-section > button > img {
     width: 1em;
     margin-right: 1em;
+    filter: var(--darken-filter);
 }
 
 .info-section > button:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: var(--button_hover);
+}
+
+.file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+.file-preview > div {
+    border-radius: 0.5em;
+    width: 6em;
+    height: 6em;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.file-preview > div > .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%,-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em;
+    color: white;
+    transition: all 0.1s;
+}
+
+.file-preview > div > div {
+    border-radius: 0.5em;
+    opacity: 0;
+    transition: all 0.3s;
+    backdrop-filter: brightness(50%);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.file-preview > div:hover > div {
+    opacity: 1;
+}
+
+.file-preview > div > div > p {
+    color: white;
+    font-family: "Arial";
+    width: 100%;
+    height: 2em;
+    margin: 0;
+    border-radius: 0.48em;
+    text-align: center;
+    background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
 }

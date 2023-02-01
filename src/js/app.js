@@ -22,8 +22,10 @@ const theme_buttons = document.querySelectorAll(".themes > div")
 const language_labels = document.querySelectorAll(".languages > p")
 const upload_element = document.getElementById("uploadElement")
 const upload_button = document.getElementById("uploadButton")
+const upload_file_preview = document.getElementById("file-preview")
 const all = document.querySelectorAll("*")
 
+var last_exception_tick = 0
 var lang_current = null
 var last_folder = null
 var ItemsRendered = 0
@@ -33,6 +35,8 @@ var using_filters = []
 function addClass(element,setClass){
     element.classList.add(setClass)
 }
+
+function tick() { return new Date().getTime() }
 
 function setCookie(name, value, exdays) {
     var d, expires;
@@ -97,6 +101,14 @@ function rusToLat(str) {
     }).join('');
 }
 
+function latToRus(str) {
+    const possibilities = ["Входящие","Важное","Отправленные","Черновики","Архив","Спам","Корзина"]
+    for (let i = 0; i < possibilities.length; i++) {
+        const value = possibilities[i]
+        if (rusToLat(value) == str) { return value }
+    }
+}
+
 function apply_filters(animate) {
     const email_list = document.querySelectorAll("#list > div")
     const indicators = filter_button.querySelectorAll(".indicator")
@@ -144,9 +156,12 @@ function apply_filters(animate) {
     })
     if (ShownCounter > 0) {
         nomail.classList.add("hidden")
+        list.setAttribute("style",null)
     } else {
         nomail.classList.remove("hidden")
+        list.setAttribute("style","none")
     }
+    checkboxUpdate()
 }
 
 filter_button.addEventListener('click', () => {
@@ -160,15 +175,16 @@ filter_button.addEventListener('click', () => {
 })
 
 document.addEventListener('click', function(event) {
+    if (tick() - last_exception_tick < 100) { return }
     if (!filter_options.contains(event.target) && !filter_button.contains(event.target)){
         filter_options.classList.remove("enabled")
         filter_button.classList.remove("enabled")
     }
-    if (!settings.contains(event.target)&& !settings_button.contains(event.target)){
+    if (!settings.contains(event.target) && !settings_button.contains(event.target)){
         settings.classList.remove("enabled")
         main.classList.remove("minimized")
     }
-    if (!compose.contains(event.target)&& !compose_button.contains(event.target)){
+    if (!compose.contains(event.target) && !compose_button.contains(event.target) && !upload_file_preview.contains(event.target)){
         compose.classList.add("hidden")
     }
 });
@@ -200,6 +216,31 @@ filter_options_all.forEach((button) => {
         }
     });
 })
+
+function checkboxUpdate() {
+    const listed_mail = list.childNodes
+    var last_value_selected = false
+    var last_valid_value = null
+    for (let i = 0; i < listed_mail.length; i++) {
+        const value = listed_mail[i]
+        if (value && value.classList !== undefined) {
+            if (last_value_selected == true) {
+                if (value.classList.contains("checked") == true) {
+                    value.classList.add("top-connection")
+                    if (last_valid_value) {last_valid_value.classList.add("bottom-connection")}
+                } else {
+                    value.classList.remove("top-connection")
+                    if (last_valid_value) {last_valid_value.classList.remove("bottom-connection")}
+                }
+            } else {
+                value.classList.remove("top-connection")
+                if (last_valid_value) {last_valid_value.classList.remove("bottom-connection")}
+            }
+            if (value.classList.contains("hidden") == false) {last_valid_value = value}
+            if (value.classList.contains("hidden") == false) {last_value_selected = value.classList.contains("checked")}
+        }
+    }
+}
 
 function setTheme(theme) {
     const Logo = document.querySelector("#Logo_Full")
@@ -285,7 +326,7 @@ function setBackButtonEnabled(value){
     } else {
         button.classList.add("disabled")
         logo.classList.remove("disabled")
-        list.setAttribute("style","display: block")
+        list.setAttribute("style",null)
         viewer.setAttribute("style","display: none")
         filters.setAttribute("style","")
     }
@@ -585,7 +626,8 @@ function renderEmail(email_date,email_folder){
 var LastRequestTick = 0
 
 function renderFolder (folder_name, first_scroll){
-    if (first_scroll == true) {
+    if (first_scroll !== false) {
+        first_scroll = true
         ItemsRendered = 0
         setBackButtonEnabled(false)
         last_folder = folder_name
@@ -606,7 +648,29 @@ function renderFolder (folder_name, first_scroll){
             if (response.length < Step) {
                 window.removeEventListener("scroll", handleInfiniteScroll);
             }
-            setupCheckboxes()
+            if (first_scroll == true) { setupCheckboxes() }
+            const folderInRus = latToRus(folder_name)
+            if (lang_current == "ru") {
+                setTitle(folderInRus + " - Почта Mail.ru")
+            } else {
+                var tranlated = ""
+                if (folderInRus == "Входящие") {
+                    tranlated = "Inbox"
+                } else if (folderInRus == "Важное") {
+                    tranlated = "Important"
+                } else if (folderInRus == "Отправленные") {
+                    tranlated = "Sent"
+                } else if (folderInRus == "Черновики") {
+                    tranlated = "Drafts"
+                } else if (folderInRus == "Архив") {
+                    tranlated = "Archive"
+                } else if (folderInRus == "Спам") {
+                    tranlated = "Spam"
+                } else if (folderInRus == "Корзина") {
+                    tranlated = "Trash"
+                }
+                setTitle(tranlated + " - Mail.ru")
+            }
         }
     }
 }
@@ -694,7 +758,7 @@ const handleInfiniteScroll = (nocheck) => {
     if (nocheck == true) {
         LastRequestTick = new Date().getTime()
         const api_request = "/api/get_folder_emails/"+last_folder+"/"+Step+"/"+ItemsRendered
-        renderFolder(last_folder)
+        renderFolder(last_folder,false)
         return
     }
     const endOfPage = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100)
@@ -703,7 +767,7 @@ const handleInfiniteScroll = (nocheck) => {
         if (tick - LastRequestTick > 1000) {
             LastRequestTick = new Date().getTime()
             const api_request = "/api/get_folder_emails/"+last_folder+"/"+Step+"/"+ItemsRendered
-            renderFolder(last_folder)
+            renderFolder(last_folder,false)
         }
     }
 }
@@ -712,11 +776,15 @@ function setupCheckboxes(){
     const checkboxes = document.querySelectorAll(".checkbox")
     checkboxes.forEach((element) => {
         element.addEventListener("click",() => {
-            if (element.parentElement.classList.contains("checked")){
-                element.parentElement.classList.remove("checked");
+            console.log("Click")
+            if (element.parentElement.classList.contains("checked") == true){
+                console.log("Removing")
+                element.parentElement.classList.remove("checked","top-connection","bottom-conection");
             } else {
+                console.log("Adding")
                 element.parentElement.classList.add("checked");
             }
+            checkboxUpdate()
         })
     })
 }
@@ -725,29 +793,7 @@ sidebar_buttons.forEach((button) => {
     if (button.classList.contains("new-folder") == false) {
         button.addEventListener('click', () => {
             if (button.classList.contains("selected")) { return }
-            if (lang_current == "ru") {
-                setTitle(button.getAttribute("folder") + " - Почта Mail.ru")
-            } else {
-                const folderInRus = button.getAttribute("folder")
-                var tranlated = ""
-                if (folderInRus == "Входящие") {
-                    tranlated = "Inbox"
-                } else if (folderInRus == "Важное") {
-                    tranlated = "Important"
-                } else if (folderInRus == "Отправленные") {
-                    tranlated = "Sent"
-                } else if (folderInRus == "Черновики") {
-                    tranlated = "Drafts"
-                } else if (folderInRus == "Архив") {
-                    tranlated = "Archive"
-                } else if (folderInRus == "Спам") {
-                    tranlated = "Spam"
-                } else if (folderInRus == "Корзина") {
-                    tranlated = "Trash"
-                }
-                setTitle(tranlated + " - Mail.ru")
-            }
-            renderFolder(rusToLat(button.getAttribute("folder")),true)
+            renderFolder(rusToLat(button.getAttribute("folder")))
             window.addEventListener("scroll", handleInfiniteScroll);
             sidebar_buttons.forEach((loop_button) => {
                 if (button === loop_button) {
@@ -835,6 +881,31 @@ language_labels.forEach((label) => {
     });
 });
 
+function formatSizeUnits(bytes){
+    if (bytes >= 1073741824) { bytes = (bytes / 1073741824).toFixed(2) + " GB"; }
+    else if (bytes >= 1048576) { bytes = (bytes / 1048576).toFixed(2) + " MB"; }
+    else if (bytes >= 1024) { bytes = (bytes / 1024).toFixed(2) + " KB"; }
+    else if (bytes > 1) { bytes = bytes + " bytes"; }
+    else if (bytes == 1) { bytes = bytes + " byte"; }
+    else { bytes = "0 bytes"; }
+    return bytes;
+}
+
+function createFilePreview(imgSource,sizeInBytes) {
+    const preview_root = createElem("div",upload_file_preview)
+    preview_root.style = "background-image: url("+imgSource+")"
+    const darken_element = createElem("div",preview_root)
+    const size_text = createElem("p",darken_element)
+    size_text.innerHTML = sizeInBytes
+    const close_button = createElem("button",preview_root,"close-button")
+    close_button.innerHTML = "&#10006;"
+    close_button.addEventListener("click", () => {
+        preview_root.remove()
+        last_exception_tick = tick()
+        compose.classList.remove("hidden")
+    })
+} // Add text <textarea>
+
 function handleFiles() {
     const fileList = this.files;
     for (let i = 0; i < fileList.length; i++) {
@@ -842,7 +913,7 @@ function handleFiles() {
         const source = URL.createObjectURL(element);
         const fileName = element.name
         const extention = fileName.split('.').pop()
-        
+        createFilePreview(source,formatSizeUnits(element.size))
     }
 }
 

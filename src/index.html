@@ -66,8 +66,7 @@
                 </div>
             </div>
             <div class="primary">
-                <div id="list" style="display: none;">
-                </div>
+                <div id="list" style="display: none;"></div>
                 <div class="no-mail">
                     <img src="media/Empty_Dark.png">
                     <h2 tid="_Nothing in here...">Писем нет</h2>
@@ -100,34 +99,36 @@
                     <p class="content hidden"></p>
                 </div>
             </div>
-            <div class="hidden compose">
-                <div class="top-section">
-                    <img src="media/user.png">
-                    <div class="info">
-                        <div class="info-section">
-                            <h4 tid="_Recipient:">Кому:</h4>
-                            <section class="emailEditor__container">
-                                <div class="emailEditor__component">
-                                    <div id="emails-input"></div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="info-section">
-                            <h4 tid="_Subject:">Тема:</h4>
-                            <input type="text">
-                        </div>
-                        <div class="info-section borderless">
-                            <button id="uploadButton" style="position: relative;">
-                                <img src="media/Attachment.png">
-                                <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;"/>
-                                Прикрепить файл
-                            </button>
-                        </div>
-                        <div class="files-uploaded">    </div>
+        </main>
+        <div class="hidden compose">
+            <div class="top-section">
+                <img src="media/user.png">
+                <div class="info">
+                    <div class="info-section">
+                        <h4 tid="_Recipient:">Кому:</h4>
+                        <section class="emailEditor__container">
+                            <div class="emailEditor__component">
+                                <div id="emails-input"></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="info-section">
+                        <h4 tid="_Subject:">Тема:</h4>
+                        <input type="text">
+                    </div>
+                    <div class="info-section borderless">
+                        <button id="uploadButton" style="position: relative;">
+                            <img src="media/Attachment.png">
+                            <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;"/>
+                            Прикрепить файл
+                        </button>
+                    </div>
+                    <div class="file-preview" id="file-preview">
+                        
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
         <button tid="options" id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
         <div id="settings">
             <div class="options">
