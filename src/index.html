@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/settings.css">
         <link rel="stylesheet" href="css/compose.css">
         <link rel="stylesheet" href="css/shimmer_loading.css">
+        <link rel="stylesheet" href="css/markdown.css">
         <link rel="shortcut icon" href="media/Mail_Cut.png" type="image/x-icon">
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -102,7 +103,7 @@
         </main>
         <div class="hidden compose">
             <div class="top-section">
-                <img src="media/user.png">
+                <img src="media/user.png" style="filter: hue-rotate(160deg);">
                 <div class="info">
                     <div class="info-section">
                         <h4 tid="_Recipient:">Кому:</h4>
@@ -119,14 +120,20 @@
                     <div class="info-section borderless">
                         <button id="uploadButton" style="position: relative;">
                             <img src="media/Attachment.png">
-                            <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;"/>
+                            <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;" multiple/>
                             Прикрепить файл
                         </button>
                     </div>
-                    <div class="file-preview" id="file-preview">
-                        
-                    </div>
+                    <div class="file-preview" id="file-preview"></div>
                 </div>
+            </div>
+            <div id="main-composition">
+                <textarea id='textarea' contenteditable></textarea>
+                <div id='input_preview'></div>
+            </div>
+            <div id="composition-buttons">
+                <button id="confirm" class="blue">Отправить</button>
+                <button id="cancel">Отменить</button>
             </div>
         </div>
         <button tid="options" id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>

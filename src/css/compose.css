@@ -3,6 +3,7 @@
     --theme_invert: white;
     --button_hover: rgba(255,255,255,0.1);
     --darken-filter: brightness(1);
+    --preview-background: rgba(255, 255, 255, 0.4);
 }
 
 [data-theme="light"] {
@@ -10,6 +11,7 @@
     --theme_invert: #232324;
     --button_hover: rgba(0, 0, 0, 0.1);
     --darken-filter: brightness(0.2);
+    --preview-background: rgba(0, 0, 0, 0.2);
 }
 
 @keyframes compose-open {
@@ -61,6 +63,12 @@
     overflow: scroll;
     overflow-x: auto;
     overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.compose::-webkit-scrollbar {
+    display: none;
 }
 
 .compose.hidden {
@@ -94,7 +102,7 @@
 }
   
 .emailsEditor__input::placeholder {
-    color: #c3c2cf;
+    color: rgb(110, 108, 118);
 }
   
 .emailsEditor__list {
@@ -119,7 +127,7 @@
 }
   
 .emailsEditor__email--tag {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(110, 108, 118);
     border-radius: 6em;
 }
   
@@ -223,6 +231,10 @@
     background-position: center;
     background-size: cover;
     position: relative;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--preview-background);
 }
 
 .file-preview > div > .close-button {
@@ -234,7 +246,7 @@
     height: 16px;
     border-radius: 16px;
     border: none;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--preview-background);
     padding: 0;
     display: flex;
     justify-content: center;
@@ -271,4 +283,72 @@
     background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
     background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+#main-composition {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#textarea {
+    width: 90%;
+    border: none;
+    color: var(--theme_invert);
+    background-color:rgba(125, 125, 125, 0.1);
+    border-radius: 0.4vw;
+    margin: 2%;
+    outline: none;
+    min-height: 30vh;
+    padding: 4px 8px;
+    resize: vertical;
+}
+
+#input_preview {
+    width: 90%;
+    border: none;
+    color: var(--theme_invert);
+    background-color:rgba(125, 125, 125, 0.1);
+    border-radius: 0.4vw;
+    margin: 2%;
+    font-family: "Arial";
+    outline: none;
+    min-height: 30vh;
+    padding: 4px 8px;
+    display: block;
+}
+
+#composition-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center ;
+    padding-bottom: 1em;
+}
+
+#composition-buttons > button {
+    background: rgba(128, 128, 128, 0.5);
+    border: 0;
+    font-size: larger;
+    width: 7em;
+    height: 2em;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: 400;
+    transition: all 0.25s;
+    cursor: pointer;
+}
+
+#composition-buttons > button:hover {
+    width: 8em;
+}
+
+#composition-buttons > button:active {
+    background: var(--theme_invert);
+    color: var(--compose-background);
+}
+
+#composition-buttons > button.blue:not(:active) {
+    background: #365ff6;
 }
