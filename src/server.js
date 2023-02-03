@@ -4,6 +4,9 @@ const path = require("path")
 const { stringify } = require("querystring")
 const port = 3000
 var email_folder_cache = {}
+var lastUpdateTick = 0
+
+function tick() { return new Date().getTime() }
 
 function rusToLat(str) {
     if (str) {
@@ -35,7 +38,7 @@ function rusToLat(str) {
 }
 
 function setupListCache(updating) {
-    if (updating == true) { email_folder_cache = {} }
+    if (updating == true) { console.log('\x1b[33m',"db.json was edited"); email_folder_cache = {} }
     console.log('\x1b[33m',"Setting up cache...")
     var DB = null
     DB = JSON.parse(fs.readFileSync("src/db.json"))
@@ -54,7 +57,10 @@ function setupListCache(updating) {
 }
 
 fs.watch(__dirname+"/db.json", (eventType, filename) => {
-    setupListCache(true)
+    if (tick() - lastUpdateTick > 3000) {
+        setTimeout(() => {setupListCache(true)},5000)
+    }
+    lastUpdateTick = tick()
 });
 
 function sendRes(url, contentType, response){
