@@ -44,10 +44,6 @@ th {
     border-bottom: 1px solid #80808079;
 }
 
-img {
-    max-width: 96px;
-}
-
 a {
     color: var(--theme-invert);
 }

@@ -28,6 +28,58 @@ const input_preview = document.getElementById("input_preview")
 const compose_buttons = document.querySelectorAll("#composition-buttons > button")
 const all = document.querySelectorAll("*")
 
+const tutorial = {
+    ["ru"]: `# Это заголовок
+---
+
+### Заголовок поменьше
+Чем больше решёток, тем меньше заголовок
+
+> Это цитата
+
+*Курсивный текст*
+
+**Жирный текст**
+
+***Комбинация***
+1. Список с нумерацией
+2. Пам парам пам пам
+
+- Список без нумерации
+- Пам парам пам пам
+
+Картинки:
+
+![Картинка](media/Attachment.png)
+
+[Больше информации о формате .md](https://ru.wikipedia.org/wiki/Markdown)`,
+["en"]: `# This is a large heading
+---
+
+### A smaller heading
+
+> A blockquote
+
+*cursive text*
+
+**bold text**
+
+***combined***
+
+~~strikethrough~~
+
+1. A ordered list
+2. Roses are red, violets are blue
+
+- An unordered list
+- Roses are red, violets are blue
+
+Images:
+
+![Image](media/Attachment.png)
+
+[More info about the markdown file format](https://en.wikipedia.org/wiki/Markdown)`}
+
 var last_exception_tick = 0
 var lang_current = null
 var last_folder = null
@@ -857,7 +909,9 @@ function setLanguage(language) {
     if (lang_current == language) { return }
     const lang_button = settings.querySelector("#lang_button")
     var text = "Язык: Русский"
+    textarea.placeholder="Начинайте печатать здесь..."
     if (language == "en") {
+        textarea.placeholder="Start typing here ..."
         text = "Language: English"
     }
     lang_button.innerHTML = text+'<img src="media/flag_'+language+'.png">'
@@ -1075,12 +1129,9 @@ function updateOutputPreview() {
     input_preview.innerHTML = output
 }
 
-function setupTutorial() {
-    if (lang_current == "ru") {
-        textarea.value = ""
-    } else {
-        textarea.value = ""
-    }
+function setupTutorial(empty) {
+    textarea.value = tutorial[lang_current]
+    if (empty) {textarea.value = ""}
     updateOutputPreview()
 }
 
@@ -1089,6 +1140,7 @@ textarea.addEventListener("input",updateOutputPreview)
 compose_buttons.forEach((element) => {
     element.addEventListener("click",() => {
         compose.classList.add("hidden")
+        setupTutorial(element.id == "confirm")
     })
 })
 
@@ -1109,4 +1161,5 @@ document.addEventListener("DOMContentLoaded",() => {
         setLanguage("ru")
     }
     renderFolder("Vhodyashchie")
+    setupTutorial()
 })

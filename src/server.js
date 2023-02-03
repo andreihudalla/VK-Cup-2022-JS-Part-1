@@ -3,7 +3,7 @@ const fs = require("fs")
 const path = require("path")
 const { stringify } = require("querystring")
 const port = 3000
-const email_folder_cache = {}
+var email_folder_cache = {}
 
 function rusToLat(str) {
     if (str) {
@@ -34,7 +34,8 @@ function rusToLat(str) {
     }
 }
 
-function setupListCache() {
+function setupListCache(updating) {
+    if (updating == true) { email_folder_cache = {} }
     console.log('\x1b[33m',"Setting up cache...")
     var DB = null
     DB = JSON.parse(fs.readFileSync("src/db.json"))
@@ -51,6 +52,10 @@ function setupListCache() {
         console.log('\x1b[31m',"Could not find db.json to set up mail cache")
     }
 }
+
+fs.watch(__dirname+"/db.json", (eventType, filename) => {
+    setupListCache(true)
+});
 
 function sendRes(url, contentType, response){
     if (contentType === "API_REQUEST"){
