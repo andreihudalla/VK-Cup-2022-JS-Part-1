@@ -41,7 +41,7 @@ function setupListCache(updating) {
     if (updating == true) { console.log('\x1b[33m',"db.json was edited"); email_folder_cache = {} }
     console.log('\x1b[33m',"Setting up cache...")
     var DB = null
-    DB = JSON.parse(fs.readFileSync("src/db.json"))
+    DB = JSON.parse(fs.readFileSync(__dirname+"/db.json"))
     if (DB !== null) {
         DB.forEach((element) => {
             const folder = rusToLat(element.folder)

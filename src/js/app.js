@@ -438,8 +438,6 @@ function setTheme(theme) {
     }
     main.classList.add("image")
     switch (theme){
-        case "geometry": {root.style.setProperty('--background-content', "url(../media/themes/Geometry.webp)"); theme="light";};
-        break;
         case "hills": {root.style.setProperty('--background-content', "url(../media/themes/Hills.webp)"); theme="dark";};
         break;
         case "mountains": {root.style.setProperty('--background-content', "url(../media/themes/Mountains.webp)"); theme="dark";};
@@ -1095,7 +1093,7 @@ function createFilePreview(imgSource,sizeInBytes,extention) {
     ]
     const preview_root = createElem("div",upload_file_preview)
     if (valid_file_extentions.includes(extention)) {
-        preview_root.style = "background-image: url(media/file_extentions/"+extention+".png)"
+        preview_root.style = "background-image: url(media/file_extentions/"+extention+".webm)"
     } else if (img_file_extentions.includes(extention)) {
         preview_root.style = "background-image: url("+imgSource+")"
     } else {

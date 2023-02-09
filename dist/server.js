@@ -1,1 +1,153 @@
-function rusToLat(e){if(e){let t={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"e","ж":"j","з":"z","и":"i","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"h","ц":"c","ч":"ch","ш":"sh","щ":"shch","ы":"y","э":"e","ю":"u","я":"ya","ъ":"ie","ь":"","й":"i"};return[...e].map(e=>{let n=t[e.toLocaleLowerCase()];return e!==e.toLocaleLowerCase()?n=n.charAt(0).toLocaleUpperCase()+n.slice(1):void 0===n&&(n=e),n}).join("")}return"_"}function sendRes(e,t,n){if("API_REQUEST"===t){let t=__dirname+"/db.json";var r=null;fs.readFile(t,(t,o)=>{if(t)n.writeHead(404),console.log("[31m","Could not find db.json..."),n.end();else{r=JSON.parse(o);var s=r,i=e.split("/")[2],a=e.split("/")[3],l=e.split("/")[4],c=e.split("/")[5];switch(console.log("[35m","Recieved API request: "+e),null!=c&&null!=l||(c=0,l=20),i){case"get_folder_emails":s=[];var u=!1;return r.forEach(e=>{u||(rusToLat(e.folder)==a&&(c<=0?s.push(e):c-=1),s.length>=l&&(u=!0))}),n.writeHead(200,{"Content-Type":"application/json"}),n.write(JSON.stringify(s)),void n.end();case"get_email_by_date":return s=[],r.forEach(e=>{e.date===a&&s.push(e)}),n.writeHead(200,{"Content-Type":"application/json"}),n.write(JSON.stringify(s)),void n.end()}}})}else{let r=path.join(__dirname+"/",e);fs.readFile(r,(e,o)=>{e?(n.writeHead(404),n.write("File not found | 404"),n.end(),console.log("[31m","Could not find file: "+r)):(n.writeHead(200,{"Content-Type":t}),n.write(o),n.end(),console.log("[0m","Got file: "+r))})}}function getContentType(e){switch(path.extname(e)){case".html":return"text/html";case".css":return"text/css";case".js":return"text/javascript";case".json":return"application/json";case".svg":return"image/svg";case".png":return"image/png";default:return"application/octate-stream"}}const http=require("http"),fs=require("fs"),path=require("path"),port=3e3,server=http.createServer(function(e,t){"/"===e.url?sendRes("index.html","text/html",t):"api"===e.url.substring(1,4)?sendRes(e.url,"API_REQUEST",t):sendRes(e.url,getContentType(e.url),t)});server.listen(port,function(e){e?console.log("[31m","Something went wrong!",e):console.log("[0m","Server is listening on port "+port)});
+const http = require("http")
+const fs = require("fs")
+const path = require("path")
+const { stringify } = require("querystring")
+const port = 3000
+var email_folder_cache = {}
+var lastUpdateTick = 0
+
+function tick() { return new Date().getTime() }
+
+function rusToLat(str) {
+    if (str) {
+        let ru = {
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
+            'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i', 
+            'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 
+            'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 
+            'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 
+            'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
+            'ъ': 'ie', 'ь': '', 'й': 'i'
+        };
+        let newString = [];
+        
+        return [...str].map(l => {
+            let latL = ru[l.toLocaleLowerCase()];
+            
+            if (l !== l.toLocaleLowerCase()) {
+              latL = latL.charAt(0).toLocaleUpperCase() + latL.slice(1);
+            } else if (latL === undefined) {
+              latL = l;
+            }
+            
+            return latL;
+        }).join('');
+    } else {
+        return "_"
+    }
+}
+
+function setupListCache(updating) {
+    if (updating == true) { console.log('\x1b[33m',"db.json was edited"); email_folder_cache = {} }
+    console.log('\x1b[33m',"Setting up cache...")
+    var DB = null
+    DB = JSON.parse(fs.readFileSync(__dirname+"/db.json"))
+    if (DB !== null) {
+        DB.forEach((element) => {
+            const folder = rusToLat(element.folder)
+            if (email_folder_cache[folder] == null) {
+                email_folder_cache[folder] = []
+            }
+            email_folder_cache[folder].push(element)
+        })
+        console.log('\x1b[32m',"Cache ready to go!")
+    } else {
+        console.log('\x1b[31m',"Could not find db.json to set up mail cache")
+    }
+}
+
+fs.watch(__dirname+"/db.json", (eventType, filename) => {
+    if (tick() - lastUpdateTick > 3000) {
+        setTimeout(() => {setupListCache(true)},5000)
+    }
+    lastUpdateTick = tick()
+});
+
+function sendRes(url, contentType, response){
+    if (contentType === "API_REQUEST"){
+        console.log('\x1b[35m',"Recieved API request: " + url)
+        var ResponseArray = []
+        var RequestType = url.split("/")[2]
+        var Argument = url.split("/")[3]
+        switch (RequestType){
+            // Getting emails in certain folders with small data
+            case "get_folder_emails": {
+                var Amount = url.split("/")[4]
+                var RemoveFirst = url.split("/")[5]
+                var ResponseArray = []
+                if (email_folder_cache[Argument]) {
+                    ResponseArray = email_folder_cache[Argument].slice(parseInt(RemoveFirst), parseInt(RemoveFirst) + parseInt(Amount))
+                }
+                response.writeHead(200, {'Content-Type' : "application/json"})
+                response.write(JSON.stringify(ResponseArray))
+                response.end()
+                return
+            }
+            // Getting full email file for opening
+            case "get_email_by_date": {
+                var folder = url.split("/")[4]
+                var ResponseArray = []
+                ResponseArray = email_folder_cache[folder]
+                for (let i = 0; i < ResponseArray.length; i++) {
+                    if (ResponseArray[i].date == Argument) {
+                        ResponseArray = [ResponseArray[i]]
+                        break
+                    }
+                }
+                response.writeHead(200, {'Content-Type' : "application/json"})
+                response.write(JSON.stringify(ResponseArray))
+                response.end()
+                return
+            }
+        }
+    } else {
+        let file = path.join(__dirname+"/",url)
+        fs.readFile(file,(error,content) => {
+            if (error){
+                response.writeHead(404)
+                response.write("File not found | 404")
+                response.end()
+                console.log('\x1b[31m',"Could not find file: "+file)
+            } else {
+                response.writeHead(200, {'Content-Type' : contentType})
+                response.write(content)
+                response.end()
+                console.log('\x1b[0m',"Got file: " + file)
+            }
+        })
+    }
+}
+
+function getContentType(url){
+    switch (path.extname(url)){
+        case ".html": return "text/html"
+        case ".css": return "text/css"
+        case ".js": return "text/javascript"
+        case ".json": return "application/json"
+        case ".svg": return "image/svg"
+        case ".png": return "image/png"
+        default: return "application/octate-stream"
+    }
+}
+
+const server = http.createServer(function(request,response){
+    if (request.url === "/"){
+        sendRes("index.html","text/html",response)
+    } else if (request.url.substring(1,4) === "api") {
+        sendRes(request.url, "API_REQUEST", response)
+    } else {
+        sendRes(request.url, getContentType(request.url), response)
+    }
+})
+
+
+setTimeout(() => {
+    setupListCache()
+    server.listen(port, function(error){
+        if (error) {
+            console.log('\x1b[31m',"Something went wrong!", error)
+        } else{
+            console.log('\x1b[32m',"Server is listening on port "+ port)
+        }
+    })
+},100)

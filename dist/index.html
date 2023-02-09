@@ -1,1 +1,209 @@
-<!DOCTYPE html><html lang="ru"><head><title tid="_Mail.ru">Почта Mail.ru</title><link rel="stylesheet" href="css/list.css"><link rel="stylesheet" href="css/viewer.css"><link rel="stylesheet" href="css/sidebar.css"><link rel="stylesheet" href="css/settings.css"><link rel="stylesheet" href="css/shimmer_loading.css"><link rel="shortcut icon" href="media/Mail_Cut.png" type="image/x-icon"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><header class="top-level-header"><div class="corner-content"><div class="" id="corner-content_1"><img src="media/Mail_Full.png" id="Logo_Full"><img src="media/Mail_Cut.png" id="Logo_Cut"></div><div class="disabled" id="corner-content_2"><img src="media/left-arrow.png"><p tid="_Return">Вернуться</p></div></div><div class="filters"><div class="filter-button"><img class="indicator hidden" data-filter="Unread" src="media/Blue_Circle.png"> <img class="indicator hidden" data-filter="Bookmark" src="media/Bookmark.png"> <img class="indicator hidden" data-filter="Attachment" src="media/Attachment.png"><p tid="_Filter">Фильтр</p><img class="arrow" src="media/left-arrow.png"></div><div class="filter-options"><h3 tid="unread" data-filter="Unread"><img class="check_mark" src="media/Check_mark.png"> <img style="width:.45em" src="media/Blue_Circle.png"> Непрочитанные</h3><h3 tid="flaged" data-filter="Bookmark"><img class="check_mark" src="media/Check_mark.png"> <img style="width:.75em" src="media/Bookmark.png"> С флажком</h3><h3 tid="has_attachment" data-filter="Attachment"><img class="check_mark" src="media/Check_mark.png"> <img src="media/Attachment.png"> С вложениями</h3><h3 class="clear">&emsp;&ensp;Сбросить всё</h3></div></div></header><main><div id="sidebar"><button tid="compose" class="white-button" type="button"><img src="media/Icon_0.png">Написать письмо</button><div id="folders"><button tid="inbox" class="selected" type="button" folder="Входящие"><img src="media/Icon_1.png">Входящие</button> <button tid="important" type="button" folder="Важное"><img src="media/Icon_2.png">Важное</button> <button tid="sent" type="button" folder="Отправленные"><img src="media/Icon_3.png">Отправленные</button> <button tid="draft" type="button" folder="Черновики"><img src="media/Icon_4.png">Черновики</button> <button tid="archive" type="button" folder="Архив"><img src="media/Icon_5.png">Архив</button> <button tid="spam" type="button" folder="Спам"><img src="media/Icon_6.png">Спам</button> <button tid="trash" type="button" folder="Корзина"><img src="media/Icon_7.png">Корзина</button> <button tid="new_folder" class="new-folder"><img src="media/Plus.png">Новая папка</button></div></div><div class="primary"><div id="list" style="display:none"></div><div class="no-mail"><img src="media/Empty_Dark.png"><h2 tid="_Nothing in here...">Писем нет</h2></div><div id="viewer" style="display:none"><div class="topbar"><h2 class="title"></h2><div class="Category"><img class="flag_icon" src=""><p class="flag"></p></div></div><div class="extra"><div class="dot" style="display:none"></div><img class="avatar" src="" style="display:none"><div class="details"><div class="top-data"><h6 class="name"></h6><p class="date"></p><img class="flaged_viewer" src="media/Bookmark.png" style="display:none"> <img class="important_viewer" src="media/Important.png" style="display:none"></div><div class="bottom-data"><p class="recipients"></p></div></div></div><div class="media"></div><p class="download"></p><p class="content"></p></div></div></main><button tid="options" id="settings_button" type="button"><img src="media/Settings.png">Настройки</button><div id="settings"><div class="options"><button tid="_Appearance" type="button" option="theme" class="selected">Внешний вид</button> <button id="lang_button" type="button" option="language">Язык: Русский<img src="media/flag_ru.png"></button></div><div class="content"><div class="theme selected"><p tid="_Customize the appearance and design theme of your email">Настройки внешнего вида вашей почты и темы оформления</p><div class="themes"><div color="#4A352F" style="background:#4a352f" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#424242" style="background:#424242" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#5A355A" style="background:#5a355a" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#35385A" style="background:#35385a" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#646ECB" style="background:#646ecb" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#E73672" style="background:#e73672" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#F44336" style="background:#f44336" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#388E3C" style="background:#388e3c" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#81D8D0" style="background:#81d8d0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#E2DCD2" style="background:#e2dcd2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#FFEBCD" style="background:#ffebcd" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#E7EED2" style="background:#e7eed2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#D0F0F7" style="background:#d0f0f7" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#C9D0FB" style="background:#c9d0fb" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#DDF3FF" style="background:#ddf3ff" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div color="#F0F0F0" style="background:#f0f0f0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div><div theme="dark" style="background-color:#000" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img src="media/Mail_Full.png"></div><div theme="light" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img src="media/Mail_Full_Light.png"></div><!--IMG themes--><div theme="starwars" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/StarWarsButton.png"></div><div theme="warface" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/WarfaceButton.png"></div><div theme="geometry" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/GeometryButton.png"></div><div theme="hills" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/HillsButton.png"></div><div theme="mountains" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/MountainsButton.png"></div><div theme="roses" style="background-color:#fff" class="primary-theme"><div class="fill"><img src="media/Check_mark.png"></div><img class="demo" src="media/themes/RosesButton.png"></div></div></div><div class="language"><p tid="_Change language">Изменить язык</p><div class="languages"><p language="ru"><img src="media/circle_checked.png" class="check"><img src="media/flag_ru.png" class="flag">Русский</p><p language="en"><img src="media/circle_empty.png" class="check"><img src="media/flag_en.png" class="flag">English</p></div></div></div><button id="close-settings"><img src="media/close.png"></button></div></body><script src="js/app.js"></script></html>
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title tid="_Mail.ru">Почта Mail.ru</title>
+        <link rel="stylesheet" href="css/list.css">
+        <link rel="stylesheet" href="css/viewer.css">
+        <link rel="stylesheet" href="css/sidebar.css">
+        <link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/compose.css">
+        <link rel="stylesheet" href="css/shimmer_loading.css">
+        <link rel="stylesheet" href="css/markdown.css">
+        <link rel="shortcut icon" href="media/Mail_Cut.png" type="image/x-icon">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header class="top-level-header">
+            <div class="corner-content">
+                <div class="" id="corner-content_1"><img src="media/Mail_Full.png" id="Logo_Full"><img src="media/Mail_Cut.png" id="Logo_Cut"></div>
+                <div class="disabled" id="corner-content_2">
+                    <img src="media/left-arrow.png"></img>
+                    <p tid="_Return">Вернуться</p>
+                </div>
+            </div>
+            <div class="filters">
+                <div class="filter-button">
+                    <img class="indicator hidden" data-filter="Unread" src="media/Blue_Circle.png">
+                    <img class="indicator hidden" data-filter="Bookmark" src="media/Bookmark.png">
+                    <img class="indicator hidden" data-filter="Attachment" src="media/Attachment.png">
+                    <p tid="_Filter">Фильтр</p>
+                    <img class="arrow" src="media/left-arrow.png">
+                </div>
+                <div class="filter-options">
+                    <h3 tid="unread" data-filter="Unread">
+                        <img class="check_mark" src="media/Check_mark.png">
+                        <img style="width: 0.45em;" src="media/Blue_Circle.png">
+                        Непрочитанные
+                    </h3>
+                    <h3 tid="flaged" data-filter="Bookmark">
+                        <img class="check_mark" src="media/Check_mark.png">
+                        <img style="width: 0.75em;" src="media/Bookmark.png">
+                        С флажком
+                    </h3>
+                    <h3 tid="has_attachment" data-filter="Attachment">
+                        <img class="check_mark" src="media/Check_mark.png">
+                        <img src="media/Attachment.png">
+                        С вложениями
+                    </h3>
+                    <h3 tid="_&emsp;&ensp;Clear all" class="clear">&emsp;&ensp;Сбросить всё</h3>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div id="sidebar">
+                <button tid="compose" class="white-button" type="button"><img src="media/Icon_0.png">Написать письмо</button>
+                <div id="folders">
+                    <button tid="inbox" class="selected" type="button" folder="Входящие"><img src="media/Icon_1.png">Входящие</button>
+                    <button tid="important" type="button" folder="Важное"><img src="media/Icon_2.png">Важное</button>
+                    <button tid="sent" type="button" folder="Отправленные"><img src="media/Icon_3.png">Отправленные</button>
+                    <button tid="draft" type="button" folder="Черновики"><img src="media/Icon_4.png">Черновики</button>
+                    <button tid="archive" type="button" folder="Архив"><img src="media/Icon_5.png">Архив</button>
+                    <button tid="spam" type="button" folder="Спам"><img src="media/Icon_6.png">Спам</button>
+                    <button tid="trash" type="button" folder="Корзина"><img src="media/Icon_7.png">Корзина</button>
+                    <hr>
+                    <button tid="new_folder" class="new-folder"><img src="media/Plus.png">Новая папка</button>
+                </div>
+            </div>
+            <div class="primary">
+                <div id="list" style="display: none;"></div>
+                <div class="no-mail">
+                    <img src="media/Empty_Dark.png">
+                    <h2 tid="_Nothing in here...">Писем нет</h2>
+                </div>
+                <div id="viewer" style="display: none;">
+                    <div class="topbar">
+                        <h2 class="title"></h2>
+                        <div class="Category">
+                            <img class="flag_icon" src="">
+                            <p class="flag"></p>
+                        </div>
+                    </div>
+                    <div class="extra">
+                        <div class="dot" style="display: none;"></div>
+                        <img class="avatar" src="" style="display: none;">
+                        <div class="details">
+                            <div class="top-data">
+                                <h6 class="name"></h6>
+                                <p class="date"></p>
+                                <img class="flaged_viewer" src="media/Bookmark.png" style="display :none;">
+                                <img class="important_viewer" src="media/Important.png" style="display :none;">
+                            </div>
+                            <div class="bottom-data">
+                                <p class="recipients"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media"></div>
+                    <p class="download"></p>
+                    <p class="content hidden"></p>
+                </div>
+            </div>
+        </main>
+        <div class="hidden compose">
+            <div class="top-section">
+                <img src="media/user.png" style="filter: hue-rotate(160deg);">
+                <div class="info">
+                    <div class="info-section">
+                        <h4 tid="_Recipient:">Кому:</h4>
+                        <section class="emailEditor__container">
+                            <div class="emailEditor__component">
+                                <div id="emails-input"></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="info-section">
+                        <h4 tid="_Subject:">Тема:</h4>
+                        <input type="text">
+                    </div>
+                    <div class="info-section borderless">
+                        <button id="uploadButton" style="position: relative;">
+                            <img src="media/Attachment.png">
+                            <input type="file" id="uploadElement" style="opacity: 1; width: 0; height: 0;" multiple/>
+                            Прикрепить файл
+                        </button>
+                    </div>
+                    <div class="file-preview" id="file-preview"></div>
+                </div>
+            </div>
+            <div id="main-composition">
+                <textarea id='textarea' contenteditable></textarea>
+                <div id='input_preview'></div>
+            </div>
+            <div id="composition-buttons">
+                <button id="confirm" class="blue">Отправить</button>
+                <button id="cancel">Отменить</button>
+            </div>
+        </div>
+        <button tid="options" id="settings_button" type="button"><img src="media/Settings.png">Настройки</button>
+        <div id="settings">
+            <div class="options">
+                <button tid="_Appearance" type="button" option="theme" class="selected">Внешний вид</button>
+                <button id="lang_button" type="button" option="language">Язык: Русский<img src="media/flag_ru.png"></button>
+            </div>
+            <div class="content">
+                <div class="theme selected">
+                    <p tid="_Customize the appearance and design theme of your email">Настройки внешнего вида вашей почты и темы оформления</p>
+                    <div class="themes">
+                        <div color="#4A352F" style="background: #4A352F" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#424242" style="background: #424242" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#5A355A" style="background: #5A355A" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#35385A" style="background: #35385A" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#646ECB" style="background: #646ECB" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#E73672" style="background: #E73672" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#F44336" style="background: #F44336" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#388E3C" style="background: #388E3C" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#81D8D0" style="background: #81D8D0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#E2DCD2" style="background: #E2DCD2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#FFEBCD" style="background: #FFEBCD" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#E7EED2" style="background: #E7EED2" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#D0F0F7" style="background: #D0F0F7" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#C9D0FB" style="background: #C9D0FB" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#DDF3FF" style="background: #DDF3FF" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div color="#F0F0F0" style="background: #F0F0F0" class="color-theme"><div class="fill"><img src="media/Check_mark.png"></div></div>
+                        <div theme="dark" style="background-color: black;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img src="media/Mail_Full.png">
+                        </div>
+                        <div theme="light" style="background-color: white;" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img src="media/Mail_Full_Light.png">
+                        </div>
+                        <!--IMG themes-->
+                        <div theme="starwars" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/StarWarsButton.webp">
+                        </div>
+                        <div theme="warface" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/WarfaceButton.webp">
+                        </div>
+                        <div theme="hills" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/HillsButton.webp">
+                        </div>
+                        <div theme="mountains" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/MountainsButton.webp">
+                        </div>
+                        <div theme="roses" class="primary-theme">
+                            <div class="fill"><img src="media/Check_mark.png"></div>
+                            <img class="demo" src="media/themes/RosesButton.webp">
+                        </div>
+                    </div>
+                </div>
+                <div class="language">
+                    <p tid="_Change language">Изменить язык</p>
+                    <div class="languages">
+                        <p language="ru"><img src="media/circle_checked.png" class="check"><img src="media/flag_ru.png" class="flag">Русский</p>
+                        <p language="en"><img src="media/circle_empty.png" class="check"><img src="media/flag_en.png" class="flag">English</p>
+                    </div>
+                </div>
+            </div>
+            <button id="close-settings"><img src="media/close.png"></button>
+        </div>
+    </body>
+    <script src="js/addressList.js"></script>
+    <script src="js/app.js"></script>
+</html>
